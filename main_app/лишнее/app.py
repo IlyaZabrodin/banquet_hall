@@ -16,7 +16,7 @@ app.secret_key = 'SuperKey'
 app.register_blueprint(blueprint_auth, url_prefix='/auth')
 app.register_blueprint(blueprint_query, url_prefix='/query_execution')
 app.register_blueprint(blueprint_report, url_prefix='/report')
-app.register_blueprint(blueprint_market, url_prefix='/market')
+app.register_blueprint(blueprint_market, url_prefix='/order_making')
 
 project_path = Path(__file__).resolve().parent
 app.config['db_config'] = json.load(open(project_path / 'configs/db.json'))

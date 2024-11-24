@@ -46,7 +46,7 @@ def start_auth():
 
             resp_json = response.json()
             if resp_json['status'] == 200:
-                return save_in_session_and_redirect(resp_json['user'])
+                return save_in_session_and_redirect(resp_json)
         else:
             # find internal user
             sql = provider.get('find_internal_user.sql', dict(login=login, password=password))

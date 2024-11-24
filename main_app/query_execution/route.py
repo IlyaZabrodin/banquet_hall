@@ -15,7 +15,7 @@ provider = SQLProvider(os.path.join(os.path.dirname(__file__), 'sql'))
 
 
 @query_blueprint.route('/', methods=['GET', 'POST'])
-@login_required
+@login_required(['manager', 'hall_admin', 'admin'])
 def form_render():
     if request.method == 'GET':
         return render_template('query_form.html')

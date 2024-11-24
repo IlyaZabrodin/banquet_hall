@@ -3,7 +3,7 @@ from pathlib import Path
 
 from flask import Flask
 
-from authorisation.routes import blueprint_auth
+from authorisation.route import blueprint_auth
 
 
 app = Flask(__name__)

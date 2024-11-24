@@ -12,7 +12,7 @@ blueprint_report = Blueprint('bp_report', __name__, template_folder='templates')
 
 
 @blueprint_report.route('/', methods=['GET', 'POST'])
-@login_required
+# @login_required
 def start_report():
     if request.method == 'GET':
         return render_template('report_menu.html')
