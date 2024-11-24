@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+
+{% block internal_user %}
+<p align="center">
+    <a class="btn btn-success" href="{{ url_for('bp_query.form_render') }}">Простые запросы</a><br><br>
+    <a class="btn btn-success" href="{{ url_for('bp_report.start_report') }}">Работа с отчетами</a><br><br>
+    <a class="btn btn-primary" href="/exit">Выйти из системы</a>
+</p>
+{% endblock %}

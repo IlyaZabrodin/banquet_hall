@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{url_for('static', filename='style.css')}}">
+    <title>Отчёты</title>
+</head>
+<body>
+    <div class="wrapper">
+        <center>
+        <header>
+                <h2>Работа с отчётами</h2>
+        </header>
+        <br>
+        <main>
+            <div class="container">
+                <form action="{{url_for('report_bp.report_handler_result')}}" method="POST">
+                    <p>
+                        <label for="report_choice">Выберите отчёт: </label>
+                        <select name="report_choice" id="report_choice">
+                            <option disabled>-- Выберите отчёт --</option>
+                            <option value="1">Отчёт о сотрудниках</option>
+                            <option selected value="2">Отчёт о продажах</option>
+                        </select>
+                    </p>
+                    <p>
+                        <label for="month_choice">Месяц:</label>
+                        <select name="month_choice">
+                            <option disabled selected>-- Выберите месяц --</option>
+                            <option selected value="01">Январь</option>
+                            <option value="02">Февраль</option>
+                            <option value="03">Март</option>
+                            <option value="04">Апрель</option>
+                            <option value="05">Май</option>
+                            <option value="06">Июнь</option>
+                            <option value="07">Июль</option>
+                            <option value="08">Август</option>
+                            <option value="09">Сентябрь</option>
+                            <option value="10">Октябрь</option>
+                            <option value="11">Ноябрь</option>
+                            <option value="12">Декабрь</option>
+                        </select>
+                        <label for="year_choice">Год:</label>
+                        <input type="number" name="year_choice" min="2020" max="{{ context.year }}" value="{{ context.year }}" step="1"></p>
+                    </p>
+                        <input type="hidden" name="procedure_name" value="public.write_to_product_report">
+                        <input type="hidden" name="name" value="report_card">
+                        <button type="submit" name="action" value="create">Создать отчёт</button>
+                        <button type="submit" name="action" value="view">Посмотреть отчёт</button>
+                </form>
+                <br><br><br>
+                <form action="{{url_for('main_menu')}}" method="GET">
+                    <button type="submit">Главное меню</button>
+                </form>
+                <br>
+                <form action="{{url_for('exit_func')}}" method="GET">
+                    <input type="submit" value="Завершить работу"/>
+                </form>  
+            </div>                
+        </main>
+        </center>
+    </div>
+</body>
+</html>

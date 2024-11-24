@@ -1,0 +1,30 @@
+{% extends 'query_base.html' %}
+
+{% block query_out %}
+<style>
+    table, td {
+        border: 1px solid;
+    }
+</style>
+
+{% if render_data['status'] %}
+<table>
+    <tr>
+        {% for column in render_data['data'][0].keys() %}
+        <td> {{ column }} </td>
+        {% endfor %}
+    </tr>
+    {% for line in render_data['data']%}
+    <tr>
+        {% for column in line.values() %}
+        <td> {{ column }} </td>
+        {% endfor %}
+    </tr>
+    {% endfor %}
+</table>
+{% else %}
+<h1>Данных не найдено.</h1>
+{% endif %}
+
+<br><a class="btn btn-success" href="/query_form">Новый запрос в БД</a><br><br>
+{% endblock %}

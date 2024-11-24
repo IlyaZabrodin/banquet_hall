@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{url_for('static', filename='style.css')}}">
+    <title>Отчёты</title>
+</head>
+<center>
+<body>
+    {% if context.is_create %}
+        {{ context.error_message }}
+    {% else %}
+    <div class="wrapper">
+        <header>
+            <h2>Отчёт о продажах</h2>
+        </header>
+        <br>
+        <main>
+            <h2>{{title}}</h2>
+            {% if context.result %}
+            <div>
+                <table border="1">
+                    <tr class="title">
+                        <td>ID отчёта</td>
+                        <td>ID товара</td>
+                        <td>Количество</td>
+                        <td>Месяц</td>
+                        <td>Год</td>
+                        <td>Прибыль</td>
+                    </tr>
+                    {% for item in context.result %}
+                    <tr>
+                        <td>{{item[0]}}</td>
+                        <td>{{item[1]}}</td>
+                        <td>{{item[2]}}</td>
+                        <td>{{item[3]}}</td>
+                        <td>{{item[4]}}</td>
+                        <td>{{item[5]}}</td>
+                    </tr>
+                    {% endfor %}
+                </table>
+            </div>
+            {% else %}
+                {{ context.error_message }}
+            {% endif %}
+    {% endif %}
+
+            <br><br><br>
+            <form action="{{url_for('report_bp.report_index')}}" method="GET">
+                <button type="submit">Вернуться к отчётам</button>
+            </form>
+            <br>
+            <form action="{{url_for('main_menu')}}" method="GET">
+                <button type="submit">Главное меню</button>
+            </form>
+            <br>
+            <form action="{{url_for('exit_func')}}" method="GET">
+                <input type="submit" value="Завершить работу"/>
+            </form>
+        </main>
+    </div>
+</body>
+</center>
+</html>

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet"
+          href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+          integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+          crossorigin="anonymous">
+    <title>Report_menu</title>
+    <link href="../static/main.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+    <div align="center">
+        <h2>Меню отчетов</h2>
+        <form action="" method="post">
+            <label for="month">Выберите месяц:</label><br>
+            <select id="month" name="month">
+                <option value="" selected>--Выберите месяц--</option>
+                <option value="jan">Январь</option>
+                <option value="feb">Февраль</option>
+                <option value="mar">Март</option>
+                <option value="apr">Апрель</option>
+                <option value="may">Май</option>
+                <option value="jun">Июнь</option>
+                <option value="jul">Июль</option>
+                <option value="aug">Август</option>
+                <option value="sep">Сентябрь</option>
+                <option value="oct">Октябрь</option>
+                <option value="nov">Ноябрь</option>
+                <option value="dec">Декабрь</option>
+            </select><br><br>
+
+            <label for="year">Выберите год:</label><br>
+            <select id="year" name="year">
+                <option value="" selected>--Выберите год--</option>
+                <option value="2023">2020</option>
+                <option value="2023">2021</option>
+                <option value="2023">2022</option>
+                <option value="2023">2023</option>
+                <option value="2024">2024</option>
+            </select><br><br><br>
+
+            <button class="btn btn-success" type="button" onclick="createReport()">Создать</button>
+
+        </form>
+    </div>
+</body>
+</html>
