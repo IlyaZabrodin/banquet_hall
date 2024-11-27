@@ -14,7 +14,9 @@
     <div>
         <h1 style="text-align: center;">Главное меню</h1>
         <h2 align="center"> Вам доступны следующие действия </h2>
-        {% block internal_user_menu %}{% endblock %}
+        {% block internal_user_menu_for_manager %}{% endblock %}
+        {% block internal_user_menu_for_director %}{% endblock %}
+        {% block internal_user_menu_for_hall_admin %}{% endblock %}
         {% block external_user_menu %}{% endblock %}
     </div>
 </body>

@@ -1,6 +1,6 @@
 SELECT
-    rep_id, prod_id, prod_col, rep_month, rep_year, income
+    idrep, idmanag, r_year, r_month, ord_amount, ord_sum
 FROM
-    product_report
+    orderreport
 WHERE
-    rep_month = '$rep_month' AND rep_year = '$rep_year';
+    r_month = '$rep_month' AND r_year = '$rep_year';

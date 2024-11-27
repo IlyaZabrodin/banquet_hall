@@ -15,13 +15,13 @@
         <br>
         <main>
             <div class="container">
-                <form action="{{url_for('report_bp.report_handler_result')}}" method="POST">
+                <form action="{{url_for('bp_report.report_handler_result')}}" method="POST">
                     <p>
                         <label for="report_choice">Выберите отчёт: </label>
                         <select name="report_choice" id="report_choice">
                             <option disabled>-- Выберите отчёт --</option>
-                            <option value="1">Отчёт о сотрудниках</option>
-                            <option selected value="2">Отчёт о продажах</option>
+                            <option value="1">Отчёт о продажах</option>
+                            <option selected value="2">Отчёт о сотрудниках</option>
                         </select>
                     </p>
                     <p>
@@ -50,11 +50,11 @@
                         <button type="submit" name="action" value="view">Посмотреть отчёт</button>
                 </form>
                 <br><br><br>
-                <form action="{{url_for('main_menu')}}" method="GET">
+                <form action="{{url_for('menu_choice')}}" method="GET">
                     <button type="submit">Главное меню</button>
                 </form>
                 <br>
-                <form action="{{url_for('exit_func')}}" method="GET">
+                <form action="{{url_for('logout_handler')}}" method="GET">
                     <input type="submit" value="Завершить работу"/>
                 </form>  
             </div>                

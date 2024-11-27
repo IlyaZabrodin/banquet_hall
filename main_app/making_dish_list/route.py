@@ -26,7 +26,6 @@ def dish_list_make():
             'status': True if result else False,
             'data': [i for i in result]
         }
-        print(render_data)
         # portions = [0, 0, 0]
         # return render_template('show_menu.html', render_data=render_data, portions=portions)
         return render_template('show_menu.html', render_data=render_data)

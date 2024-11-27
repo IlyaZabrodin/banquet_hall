@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -13,7 +14,7 @@
     {% else %}
     <div class="wrapper">
         <header>
-            <h2>Отчёт о продажах</h2>
+            <h2>Отчёт о сотрудниках за {{context.result[0][3]}} месяц {{context.result[0][2]}} года</h2>
         </header>
         <br>
         <main>
@@ -23,18 +24,14 @@
                 <table border="1">
                     <tr class="title">
                         <td>ID отчёта</td>
-                        <td>ID товара</td>
-                        <td>Количество</td>
-                        <td>Месяц</td>
-                        <td>Год</td>
-                        <td>Прибыль</td>
+                        <td>ID менеджера</td>
+                        <td>Количество заказов</td>
+                        <td>Общая прибыль заказов</td>
                     </tr>
                     {% for item in context.result %}
                     <tr>
                         <td>{{item[0]}}</td>
                         <td>{{item[1]}}</td>
-                        <td>{{item[2]}}</td>
-                        <td>{{item[3]}}</td>
                         <td>{{item[4]}}</td>
                         <td>{{item[5]}}</td>
                     </tr>
@@ -47,15 +44,15 @@
     {% endif %}
 
             <br><br><br>
-            <form action="{{url_for('report_bp.report_index')}}" method="GET">
+            <form action="{{url_for('bp_report.start_report')}}" method="GET">
                 <button type="submit">Вернуться к отчётам</button>
             </form>
             <br>
-            <form action="{{url_for('main_menu')}}" method="GET">
+            <form action="{{url_for('menu_choice')}}" method="GET">
                 <button type="submit">Главное меню</button>
             </form>
             <br>
-            <form action="{{url_for('exit_func')}}" method="GET">
+            <form action="{{url_for('logout_handler')}}" method="GET">
                 <input type="submit" value="Завершить работу"/>
             </form>
         </main>

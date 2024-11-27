@@ -2,9 +2,11 @@ import json
 from pathlib import Path
 from flask import Flask, render_template, request, session, redirect
 
+from cryptography.hazmat.bindings.openssl import binding
+
 from authorisation.route import auth_blueprint
 from query_execution.route import query_blueprint
-from report.routes import blueprint_report
+from report.route import blueprint_report
 from order_making.route import blueprint_order_make
 from making_dish_list.route import blueprint_dish_list_make
 from access import login_required
@@ -27,7 +29,14 @@ app.config['db_config'] = json.load(open(project_path / 'configs/db.json'))
 @login_required()
 def menu_choice():
     user = Properties(session.get('user_id'), session.get('user_group'))
-    return user.show_client()
+    if session.get('user_group') == 'client':
+        return user.show_client()
+    elif session.get('user_group') == 'manager':
+        return user.show_manager()
+    elif session.get('user_group') == 'director':
+        return user.show_director()
+    elif session.get('user_group') == 'hall_admin':
+        return user.show_hall_admin()
     # return render_template('internal_user_menu.html' if session.get('user_group') != 'client'
     #                        else 'external_user_menu.html')
 

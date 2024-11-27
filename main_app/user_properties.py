@@ -8,7 +8,7 @@ from database.operations import select
 
 from authorisation.route import auth_blueprint
 from query_execution.route import query_blueprint
-from report.routes import blueprint_report
+from report.route import blueprint_report
 from order_making.route import blueprint_order_make
 from access import login_required
 
@@ -42,7 +42,7 @@ class Properties:
         pass
 
     def show_director(self):
-        pass
+        return render_template('internal_user_menu_for_director.html')
 
     def show_hall_admin(self):
         pass
