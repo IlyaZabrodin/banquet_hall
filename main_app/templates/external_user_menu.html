@@ -1,8 +1,53 @@
 {% extends 'base.html' %}
 
-{% block external_user %}
+{% block external_user_menu %}
 <p align="center">
-    <a class="btn btn-success" href="{{ url_for('bp_order_make.order_make') }}">Оформить заказ</a><br><br>
+    <a class="btn btn-success" href="{{ url_for('bp_order_make.order_make') }}">Оформить новый заказ</a><br><br>
     <a class="btn btn-primary" href="/exit">Выйти из системы</a>
 </p>
+<form>
+    <h2>Мои заказы:</h2>
+    {% if render_data['status'] %}
+        <table border="1">
+            <thead>
+                <tr>
+                    <th>Номер заказа:</th>
+                    <th>Статус заказа:</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for id, status in render_data['data'] %}
+                    <tr>
+                        <td>{{ id }}</td>
+                        <td>
+                            {% if status == 'В обработке' %}
+                                <span style="color: orange;">{{ status }}</span>
+                                <th>Ожидайте подтверждения заказа. Скоро с вами свяжется сотрудник.</th>
+                            {% elif status == 'Подтвержден' %}
+                                <span style="color: blue;">{{ status }}</span>
+                                <th>Теперь вы можете предварительно выбрать блюда для вашего банкета:</th>
+                                <a class="btn btn-success" href="{{ url_for('bp_dish_list_make.dish_list_make') }}">Меню</a><br><br>
+                            {% elif status == 'Полностью оформлен' %}
+                                <span style="color: green;">{{ status }}</span>
+                                <th>Ждем вас в указанную вами дату!</th>
+                            {% elif status == 'Ждет оплаты' %}
+                                <span style="color: orange;">{{ status }}</span>
+                                <th>Оплатите позиции, заказанные вами на месте, чья стоимость не входила в аванс.</th>
+                            {% elif status == 'Завершен' %}
+                                <span style="color: green;">{{ status }}</span>
+                            {% elif status == 'Отменен' %}
+                                <span style="color: red;">{{ status }}</span>
+                                <th>Упс...Что-то пошло не так.</th>
+                            {% else %}
+                                <span style="color: gray;">{{ status }}</span>
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p style="color: black;">Заказов пока что нет.</p>
+    {% endif %}
+</form>
 {% endblock %}

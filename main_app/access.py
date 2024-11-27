@@ -9,7 +9,6 @@ def login_required(allowed_roles: List[str] = []) -> Callable:
         @wraps(func)
         def wrapper(*args, **kwargs):
             if len(allowed_roles) != 0 and (session['user_group'] not in allowed_roles):
-                #print(session['user_group'])
                 abort(redirect('/access_fail'))
             if 'user_id' in session:
                 return func(*args, **kwargs)

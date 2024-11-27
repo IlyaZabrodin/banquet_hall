@@ -1,0 +1,52 @@
+{% extends 'order_base.html' %}
+
+{% block make_order_form %}
+<div class="form-container">
+    <h2>Выбор даты</h2>
+    <form action="{{url_for('bp_report.report_handler_result')}}" method="POST">
+        <div class="form-group">
+            <label for="date">Выберите дату:</label>
+            <select id="date" name="date" required>
+                <option value="">-- Выберите дату --</option>
+                {% for date in available_dates %}
+                    <option value="{{ date }}">{{ date }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="time">Выберите время:</label>
+            <select id="time" name="time" required>
+                <option value="">-- Выберите время --</option>
+                {% for time in time_options %}
+                    <option value="{{ time }}">{{ time }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="place_amount">Посадка:</label>
+            <select name="place_amount">
+                <option disabled selected>-- Выберите ожидаемое количество человек --</option>
+                <option value="50">до 50 человек</option>
+                <option value="30">до 30 человек</option>
+                <option value="18">до 18 человек</option>
+                <option value="10">до 10 человек</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="phone">Введите номер телефона:</label>
+            <input
+                type="tel"
+                id="phone"
+                name="phone"
+                placeholder="+7(XXX)XXX-XX-XX"
+                pattern="^\+7\d{10}$"
+                required
+            >
+            <small>Формат: +7(XXX)XXX-XX-XX</small>
+        </div>
+        <div class="form-group">
+            <button type="submit">Отправить</button>
+        </div>
+    </form>
+</div>
+{% endblock %}

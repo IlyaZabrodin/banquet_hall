@@ -17,7 +17,7 @@ class SQLProvider:
         for file in os.listdir(file_path):
             self._scripts[file] = Template(open(f'{file_path}/{file}').read())
 
-    def get(self, name: str, kwargs: dict) -> str:
+    def get(self, name: str, kwargs: dict = None) -> str:
         """
         Выдает SQL-запрос по его названию.
 
@@ -30,4 +30,7 @@ class SQLProvider:
 
         if name not in self._scripts:
             raise ValueError(f'No such sql-script: {name}')
+
+        kwargs = kwargs or {}
+
         return self._scripts.get(name).substitute(**kwargs)

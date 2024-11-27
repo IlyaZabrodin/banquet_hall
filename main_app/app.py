@@ -6,7 +6,9 @@ from authorisation.route import auth_blueprint
 from query_execution.route import query_blueprint
 from report.routes import blueprint_report
 from order_making.route import blueprint_order_make
+from making_dish_list.route import blueprint_dish_list_make
 from access import login_required
+from user_properties import Properties
 
 app = Flask(__name__)
 
@@ -14,6 +16,7 @@ app.register_blueprint(auth_blueprint, url_prefix='/authorisation')
 app.register_blueprint(query_blueprint, url_prefix='/query_form')
 app.register_blueprint(blueprint_report, url_prefix='/report')
 app.register_blueprint(blueprint_order_make, url_prefix='/order_making')
+app.register_blueprint(blueprint_dish_list_make, url_prefix='/dish_list_making')
 app.secret_key = 'SuperKey'
 
 project_path = Path(__file__).resolve().parent
@@ -23,8 +26,10 @@ app.config['db_config'] = json.load(open(project_path / 'configs/db.json'))
 @app.route('/')
 @login_required()
 def menu_choice():
-    return render_template('internal_user_menu.html' if session.get('user_group') != 'client'
-                           else 'external_user_menu.html')
+    user = Properties(session.get('user_id'), session.get('user_group'))
+    return user.show_client()
+    # return render_template('internal_user_menu.html' if session.get('user_group') != 'client'
+    #                        else 'external_user_menu.html')
 
 
 @app.route('/access_fail')

@@ -7,15 +7,13 @@
           href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
           integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
           crossorigin="anonymous">
-    <title>Base_menu</title>
-    <link href="/static/main.css" rel="stylesheet" type="text/css">
+    <title>Order page</title>
+    <link href="../static/main.css" rel="stylesheet" type="text/css">
+    <link href="../static/make_order.css" rel="stylesheet" type="text/css">
 </head>
 <body>
-    <div>
-        <h1 style="text-align: center;">Главное меню</h1>
-        <h2 align="center"> Вам доступны следующие действия </h2>
-        {% block internal_user_menu %}{% endblock %}
-        {% block external_user_menu %}{% endblock %}
-    </div>
+{% block make_order_form %}{% endblock %}
+<a class="btn btn-success" href="/">Вернуться в меню</a><br><br>
+<a class="btn btn-primary" href="/exit">Выйти из системы</a>
 </body>
 </html>
