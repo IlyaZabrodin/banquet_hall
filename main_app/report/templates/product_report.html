@@ -1,20 +1,28 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{{url_for('static', filename='style.css')}}">
-    <title>Отчёты</title>
+    <title>Reports</title>
 </head>
 <center>
 <body>
-    {% if context.is_create %}
+    {% if context.error_message %}
         {{ context.error_message }}
     {% else %}
     <div class="wrapper">
         <header>
-            <h2>Отчёт о сотрудниках за {{context.result[0][3]}} месяц {{context.result[0][2]}} года</h2>
+            {% set months = {
+                1: "Январь", 2: "Февраль", 3: "Март", 4: "Апрель",
+                5: "Май", 6: "Июнь", 7: "Июль", 8: "Август",
+                9: "Сентябрь", 10: "Октябрь", 11: "Ноябрь", 12: "Декабрь"
+            } %}
+            {% if context.id_rep == 1 %}
+                <h2>Отчёт о сотрудниках за {{months[context.result[0][3]]}} {{context.result[0][2]}} года</h2>
+            {% else %}
+                <h2>Отчёт о продажах каждого зала за {{months[context.result[0][3]]}} {{context.result[0][2]}} года</h2>
+            {% endif %}
         </header>
         <br>
         <main>
@@ -49,11 +57,11 @@
             </form>
             <br>
             <form action="{{url_for('menu_choice')}}" method="GET">
-                <button type="submit">Главное меню</button>
+                <button type="submit">Вернуться в меню</button>
             </form>
             <br>
             <form action="{{url_for('logout_handler')}}" method="GET">
-                <input type="submit" value="Завершить работу"/>
+                <input type="submit" value="Выйти из системы"/>
             </form>
         </main>
     </div>

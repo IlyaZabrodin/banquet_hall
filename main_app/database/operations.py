@@ -43,7 +43,18 @@ def select_dict(db_config, sql):
     return [dict(zip(schema, row)) for row in rows]
 
 
-def call_proc(db_config: dict, proc_name: str, *args):
+def call_procedure(db_config: dict, proc_name: str, *args):
+    """
+    Выполняет вызов процедур.
+
+    Args:
+        db_config: dict - Конфиг для подключения к БД.
+        proc_name: dict - название процедуры.
+        *args: str - параметры процедуры.
+    Return:
+        Флаг-значение вызова процедуры, в зависимости от успешности ее выполнения.
+    """
+
     provider = SQLProvider(os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'sql'))
 
     res = []
@@ -57,11 +68,18 @@ def call_proc(db_config: dict, proc_name: str, *args):
         print(f"param_list = {param_list}")
         print(f"proc_name = {proc_name}")
         print()
-        call_statement = provider.get(
-            'call_procedure.sql',
-            {'param_list0': param_list[0],
-             'param_list1': param_list[1]}
-        )
+        if param_list[0] == 1:
+            call_statement = provider.get(
+                'call_worker_procedure.sql',
+                {'month': param_list[1],
+                 'year': param_list[2]}
+            )
+        elif param_list[0] == 0:
+            call_statement = provider.get(
+                'call_sale_procedure.sql',
+                {'month': param_list[1],
+                 'year': param_list[2]}
+            )
         print(call_statement)
         cursor.execute(call_statement)
         res = cursor.fetchone()[0]

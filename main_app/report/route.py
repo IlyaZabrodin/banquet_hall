@@ -10,13 +10,6 @@ blueprint_report = Blueprint('bp_report', __name__, template_folder='templates')
 provider = SQLProvider(os.path.join(os.path.dirname(__file__), 'sql'))
 
 
-# error_list = []
-# with open('./data/bp_report/error_list.json') as f:
-#     error_list = json.load(f)
-# print(f"\nerror_list = {error_list}")
-# print(f"type error_list = {type(error_list)}\n")
-
-
 @blueprint_report.route('/', methods=['GET'])
 def start_report():
     session['current_year'] = datetime.now().year
@@ -29,8 +22,8 @@ def start_report():
 @blueprint_report.route('/', methods=['POST'])
 def report_handler_result():
     report_list = [
-        {'rep_id': '1', 'proc_name': 'staff_report', 'sql': 'staff.sql'},
-        {'rep_id': '2', 'proc_name': 'schema_1.OrderReport', 'sql': 'product.sql'}
+        {'rep_id': '1', 'proc_name': 'schema_1.SaleReport', 'sql': 'sales_report.sql'},
+        {'rep_id': '2', 'proc_name': 'schema_1.OrderReport', 'sql': 'workers_report.sql'}
     ]
     print()
     print(f"request.form = {list(request.form)}")
@@ -48,6 +41,7 @@ def report_handler_result():
     info = model_route(sql_provider=provider, context=context)
     print()
     print(f"info = {info}")
+    print(f"info = {context}")
     print()
 
     return render_template(f"product_report.html", context=info)

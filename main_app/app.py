@@ -2,8 +2,6 @@ import json
 from pathlib import Path
 from flask import Flask, render_template, request, session, redirect
 
-from cryptography.hazmat.bindings.openssl import binding
-
 from authorisation.route import auth_blueprint
 from query_execution.route import query_blueprint
 from report.route import blueprint_report
@@ -37,8 +35,6 @@ def menu_choice():
         return user.show_director()
     elif session.get('user_group') == 'hall_admin':
         return user.show_hall_admin()
-    # return render_template('internal_user_menu.html' if session.get('user_group') != 'client'
-    #                        else 'external_user_menu.html')
 
 
 @app.route('/access_fail')

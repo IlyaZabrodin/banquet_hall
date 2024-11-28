@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{{url_for('static', filename='style.css')}}">
-    <title>Отчёты</title>
+    <title>Reports</title>
 </head>
 <body>
     <div class="wrapper">
@@ -51,11 +51,11 @@
                 </form>
                 <br><br><br>
                 <form action="{{url_for('menu_choice')}}" method="GET">
-                    <button type="submit">Главное меню</button>
+                    <button type="submit">Вернуться в меню</button>
                 </form>
                 <br>
                 <form action="{{url_for('logout_handler')}}" method="GET">
-                    <input type="submit" value="Завершить работу"/>
+                    <input type="submit" value="Выйти из системы"/>
                 </form>  
             </div>                
         </main>
