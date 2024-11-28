@@ -64,10 +64,7 @@ def call_procedure(db_config: dict, proc_name: str, *args):
         param_list = []
         for arg in args:
             param_list.append(arg)
-        print()
-        print(f"param_list = {param_list}")
-        print(f"proc_name = {proc_name}")
-        print()
+
         if param_list[0] == 1:
             call_statement = provider.get(
                 'call_worker_procedure.sql',
@@ -80,10 +77,6 @@ def call_procedure(db_config: dict, proc_name: str, *args):
                 {'month': param_list[1],
                  'year': param_list[2]}
             )
-        print(call_statement)
         cursor.execute(call_statement)
         res = cursor.fetchone()[0]
-        print()
-        print(f"cursor.callproc = {res}")
-        print()
     return res

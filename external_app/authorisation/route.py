@@ -45,6 +45,4 @@ def find_user():
         user = select_dict(current_app.config['db_config'], sql)
         if not user:
             return jsonify({'status': 404, 'message': 'user not found'})
-        print(user)
-        print(user[0]['user_id'], user[0]['user_group'])
         return jsonify({'status': 200, 'message': 'OK', 'user_id': user[0]['user_id'], 'user_group': user[0]['user_group']})
