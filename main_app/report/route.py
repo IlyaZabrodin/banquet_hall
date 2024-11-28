@@ -2,6 +2,7 @@ import os
 from datetime import datetime, timedelta
 from flask import Flask, render_template, Blueprint, current_app, request, session
 from database.sql_provider import SQLProvider
+from access import login_required
 from .model_route import model_route
 
 blueprint_report = Blueprint('bp_report', __name__, template_folder='templates')
@@ -10,6 +11,7 @@ provider = SQLProvider(os.path.join(os.path.dirname(__file__), 'sql'))
 
 
 @blueprint_report.route('/', methods=['GET'])
+@login_required(['director'])
 def start_report():
     session['current_year'] = datetime.now().year
     context = {
@@ -19,6 +21,7 @@ def start_report():
 
 
 @blueprint_report.route('/', methods=['POST'])
+@login_required(['director'])
 def report_handler_result():
     report_list = [
         {'rep_id': '1', 'proc_name': 'schema_1.SaleReport', 'sql': 'sales_report.sql'},

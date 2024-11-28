@@ -1,5 +1,6 @@
 SELECT
-    DATE(banquet_time)
+    DATE(banquet_time),
+    idhall
 FROM client_order
 WHERE 1=1
     AND DATE(banquet_time) >= '$tomorrow_date'

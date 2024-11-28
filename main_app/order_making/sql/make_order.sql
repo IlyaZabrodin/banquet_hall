@@ -1,0 +1,2 @@
+INSERT INTO client_order (banquet_time, expected_place_amount, idhall, order_status, client_phone, user_id)
+			VALUES ('$banquet_time', '$expected_place_amount', '$idhall', '$order_status', '$client_phone', '$user_id');
