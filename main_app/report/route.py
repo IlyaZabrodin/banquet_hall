@@ -11,17 +11,18 @@ provider = SQLProvider(os.path.join(os.path.dirname(__file__), 'sql'))
 
 
 @blueprint_report.route('/', methods=['GET'])
-@login_required(['director'])
+@login_required(['director', 'manager'])
 def start_report():
     session['current_year'] = datetime.now().year
     context = {
-        "year": session['current_year']
+        "year": session['current_year'],
+        "u_group": session.get('user_group')
     }
     return render_template("main.html", context=context)
 
 
 @blueprint_report.route('/', methods=['POST'])
-@login_required(['director'])
+@login_required(['director', 'manager'])
 def report_handler_result():
     report_list = [
         {'rep_id': '1', 'proc_name': 'schema_1.SaleReport', 'sql': 'sales_report.sql'},
