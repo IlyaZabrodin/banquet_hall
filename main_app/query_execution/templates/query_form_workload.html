@@ -1,0 +1,12 @@
+{% extends 'query_base.html' %}
+
+{% block query_form_workload %}
+<form action="" method="post">
+    <!--<input type="text" name="product-name">
+    <input type="submit" value="Send">-->
+    <h3>Проверка загруженности залов</h3>
+    <label for="hall_id">Введите номер необходимого зала:</label><br>
+    <input type="text" name="hall_id" id="hall_id"><br>
+    <input type="submit" value="Показать"><br><br>
+</form>
+{% endblock %}

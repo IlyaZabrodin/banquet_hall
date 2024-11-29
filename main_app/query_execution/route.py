@@ -1,8 +1,10 @@
 import os
 from flask import Blueprint, render_template, request, session, redirect, current_app
+from datetime import datetime, timedelta
 
 from database.sql_provider import SQLProvider
 from database.connection import DBContextManager
+from database.operations import select_dict
 from access import login_required
 
 query_blueprint = Blueprint(
@@ -15,22 +17,32 @@ provider = SQLProvider(os.path.join(os.path.dirname(__file__), 'sql'))
 
 
 @query_blueprint.route('/', methods=['GET', 'POST'])
-@login_required(['manager', 'hall_admin', 'admin'])
+@login_required(['hall_admin', 'client', 'manager'])
 def form_render():
     if request.method == 'GET':
-        return render_template('query_form.html')
-    elif request.method == 'POST':
-        prod_category = request.form.get('product-category', '')
-        sql_statement = provider.get(
-            'find_product_category.sql',
-            {'prod_category': prod_category}
-        )
+        if session.get('user_group') in ['hall_admin']:
+            return render_template('query_form_workload.html')
+        else:
+            sql_statement = provider.get('show_menu.sql')
 
-        render_data = find_product_by_category(current_app.config['db_config'], sql_statement)
+            sql = provider.get('show_menu.sql')
+            render_data = select_dict(current_app.config['db_config'], sql)
+
+            return render_template(
+                'query_out.html',
+                render_data=render_data,
+                status_code=2
+            )
+    elif request.method == 'POST':
+        hall_id = request.form.get('hall_id', '')
+        sql = provider.get('show_hall_workload.sql', dict(hall_id=hall_id,
+                                                          tomorrow_date=(datetime.now() + timedelta(days=1)).strftime("%Y-%m-%d")))
+        render_data = select_dict(current_app.config['db_config'], sql)
 
         return render_template(
             'query_out.html',
-            render_data=render_data
+            render_data=render_data,
+            status_code=1
         )
 
 

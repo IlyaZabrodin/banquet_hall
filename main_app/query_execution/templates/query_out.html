@@ -7,14 +7,14 @@
     }
 </style>
 
-{% if render_data['status'] %}
+{% if render_data %}
 <table>
     <tr>
-        {% for column in render_data['data'][0].keys() %}
+        {% for column in render_data[0].keys() %}
         <td> {{ column }} </td>
         {% endfor %}
     </tr>
-    {% for line in render_data['data']%}
+    {% for line in render_data%}
     <tr>
         {% for column in line.values() %}
         <td> {{ column }} </td>
@@ -26,5 +26,9 @@
 <h1>Данных не найдено.</h1>
 {% endif %}
 
-<br><a class="btn btn-success" href="/query_form">Новый запрос в БД</a><br><br>
+{% if status_code == 1 %}
+<table>
+    <br><a class="btn btn-success" href="{{ url_for('bp_query.form_render') }}">Посмотреть другой зал</a><br><br>
+</table>
+{% endif %}
 {% endblock %}
