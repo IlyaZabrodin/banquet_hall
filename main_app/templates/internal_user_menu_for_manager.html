@@ -2,7 +2,50 @@
 
 {% block internal_user_menu_for_manager %}
 <p align="center">
-    <a class="btn btn-success" href="{{ url_for('bp_report.start_report') }}">Работа с отчетами</a><br><br>
+    <a class="btn btn-success" href="{{ url_for('bp_order_make.order_make') }}">Оформить новый заказ</a><br><br>
     <a class="btn btn-primary" href="/exit">Выйти из системы</a>
 </p>
+<form>
+    <h2>Заказы зарезервированные на вас:</h2>
+    {% if render_data['status'] %}
+        <table border="1">
+            <thead>
+                <tr>
+                    <th>Номер заказа</th>
+                    <th>Зарезервированное время</th>
+                    <th>Ожидаемое число человек</th>
+                    <th>Номер зала</th>
+                    <th>Аванс</th>
+                    <th>Количество блюд</th>
+                    <th>Реальная стоимость</th>
+                    <th>Статус заказа</th>
+                    <th>Телефон клиента</th>
+                    <th>ID клиента</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for ord_id, time, place_amount, hall, prepaid_exp, dish_am, cost, status, phone, user in render_data['data'] %}
+                    <tr>
+                        <td>{{ ord_id }}</td>
+                        <td>{{ time }}</td>
+                        <td>{{ place_amount }}</td>
+                        <td>{{ hall }}</td>
+                        <td>{{ prepaid_exp }}</td>
+                        <td>{{ dish_am }}</td>
+                        <td>{{ cost }}</td>
+                        <td>{{ status }}</td>
+                        <td>{{ phone }}</td>
+                        <td>{{ user }}</td>
+                        <td>
+                            <a class="btn btn-primary" href="{{ url_for('menu_choice') }}">Действие</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p style="color: black;">На данный момент на вас не найдено заказов.</p>
+    {% endif %}
+</form>
 {% endblock %}

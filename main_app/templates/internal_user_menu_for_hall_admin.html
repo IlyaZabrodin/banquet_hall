@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 
-{% block external_user_menu %}
+{% block internal_user_menu_for_hall_admin %}
 <p align="center">
     <a class="btn btn-success" href="{{ url_for('bp_order_make.order_make') }}">Оформить новый заказ</a><br><br>
     <a class="btn btn-primary" href="/exit">Выйти из системы</a>

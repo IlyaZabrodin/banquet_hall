@@ -40,7 +40,13 @@ class Properties:
         return render_template('external_user_menu.html', render_data=render_data)
 
     def show_manager(self):
-        pass
+        sql = provider.get('find_manager_order.sql', dict(user_id=self.id, avoid_status="Завершен"))
+        result, schema = select(current_app.config['db_config'], sql)
+        render_data = {
+            'status': True if result else False,
+            'data': [i for i in result]
+        }
+        return render_template('internal_user_menu_for_manager.html', render_data=render_data)
 
     def show_director(self):
         return render_template('internal_user_menu_for_director.html')
