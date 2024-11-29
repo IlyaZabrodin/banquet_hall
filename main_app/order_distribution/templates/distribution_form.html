@@ -1,0 +1,31 @@
+{% extends 'distribution_base.html' %}
+
+{% block distribution_form %}
+  <h3>Связаться с клиентом: {{ phone }}</h3>
+  {% if render_data.status %}
+    <table>
+      <thead>
+        <tr>
+          <th>Имя менеджера</th>
+          <th>Действие</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for manager_id, manager_name in render_data.data %}
+        <tr>
+          <td>{{ manager_name }}</td>
+          <td>
+            <form method="POST" action="{{ url_for('bp_order_distribute.order_distribute') }}">
+              <input type="hidden" name="manager_id" value="{{ manager_id }}">
+              <input type="hidden" name="order_id" value="{{ id }}">
+              <button type="submit" class="btn btn-primary">Выбрать</button>
+            </form>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  {% else %}
+    <p>На данный момент все работающие менеджеры заняты.</p>
+  {% endif %}
+{% endblock %}

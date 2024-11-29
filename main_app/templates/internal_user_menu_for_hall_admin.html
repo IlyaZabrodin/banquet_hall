@@ -1,8 +1,43 @@
 {% extends 'base.html' %}
 
-{% block internal_user_menu_for_hall_admin %}
+{% block external_user_menu %}
 <p align="center">
-    <a class="btn btn-success" href="{{ url_for('bp_report.start_report') }}">Работа с отчетами</a><br><br>
+    <a class="btn btn-success" href="{{ url_for('bp_order_make.order_make') }}">Оформить новый заказ</a><br><br>
     <a class="btn btn-primary" href="/exit">Выйти из системы</a>
 </p>
+<form>
+    <h2>Заказы к обработке:</h2>
+    {% if render_data['status'] %}
+        <table border="1">
+            <thead>
+                <tr>
+                    <th>Номер заказа</th>
+                    <th>Зарезервированное время</th>
+                    <th>Ожидаемое число человек</th>
+                    <th>Номер зала</th>
+                    <th>Телефон клиента</th>
+                    <th>ID клиента</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for ord_id, time, place_amount, hall, phone, user in render_data['data'] %}
+                    <tr>
+                        <td>{{ ord_id }}</td>
+                        <td>{{ time }}</td>
+                        <td>{{ place_amount }}</td>
+                        <td>{{ hall }}</td>
+                        <td>{{ phone }}</td>
+                        <td>{{ user }}</td>
+                        <td>
+                            <a class="btn btn-primary" href="{{ url_for('bp_order_distribute.order_distribute', param1=ord_id, param2=time, param3=phone) }}">Обработать</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p style="color: black;">Необработанных заказов не найдено.</p>
+    {% endif %}
+</form>
 {% endblock %}

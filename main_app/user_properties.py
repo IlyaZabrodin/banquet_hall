@@ -10,6 +10,7 @@ from authorisation.route import auth_blueprint
 from query_execution.route import query_blueprint
 from report.route import blueprint_report
 from order_making.route import blueprint_order_make
+from order_distribution.route import blueprint_order_distribute
 from access import login_required
 
 provider = SQLProvider(os.path.join(os.path.dirname(__file__), 'sql'))
@@ -45,4 +46,11 @@ class Properties:
         return render_template('internal_user_menu_for_director.html')
 
     def show_hall_admin(self):
-        pass
+        order_status = 'В обработке'
+        sql = provider.get('find_not_processed_orders.sql', dict(order_status=order_status))
+        result, schema = select(current_app.config['db_config'], sql)
+        render_data = {
+            'status': True if result else False,
+            'data': [i for i in result]
+        }
+        return render_template('internal_user_menu_for_hall_admin.html', render_data=render_data)
