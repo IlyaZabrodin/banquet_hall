@@ -19,44 +19,47 @@ provider = SQLProvider(os.path.join(os.path.dirname(__file__), 'sql'))
 class Properties:
 
     def __init__(self, user_id: int, role: str) -> None:
-        self.role = role
         self.id = user_id
-        if self.role == "client":
-            self.show_client()
-        elif self.role == "manager":
-            self.show_manager()
-        elif self.role == "director":
-            self.show_director()
-        elif self.role == "hall_admin":
-            self.show_hall_admin()
+        self.role = role
+        # Словарь для обработки ролей
+        self.role_configs = {
+            'client': {
+                'sql_file': 'find_order.sql',
+                'template': 'external_user_menu.html',
+                'params': {'user_id': self.id}
+            },
+            'manager': {
+                'sql_file': 'find_manager_order.sql',
+                'template': 'internal_user_menu_for_manager.html',
+                'params': {'user_id': self.id, 'avoid_status': "Завершен"}
+            },
+            'director': {
+                'sql_file': None,
+                'template': 'internal_user_menu_for_director.html',
+                'params': {}
+            },
+            'hall_admin': {
+                'sql_file': 'find_not_processed_orders.sql',
+                'template': 'internal_user_menu_for_hall_admin.html',
+                'params': {'order_status': 'В обработке'}
+            }
+        }
 
-    def show_client(self):
-        sql = provider.get('find_order.sql', dict(user_id=self.id))
-        result, schema = select(current_app.config['db_config'], sql)
+    def show_template(self):
+        # Проверка наличия конфигурации для роли
+        if self.role not in self.role_configs:
+            raise ValueError(f"Role {self.role} is not supported")
+
+        user_props = self.role_configs[self.role]
+        sql_file, template, params = user_props['sql_file'], user_props['template'], user_props['params']
+
+        result, schema = ([], None)
+        if sql_file:
+            sql = provider.get(sql_file, params)
+            result, schema = select(current_app.config['db_config'], sql)
+
         render_data = {
             'status': True if result else False,
             'data': [i for i in result]
         }
-        return render_template('external_user_menu.html', render_data=render_data)
-
-    def show_manager(self):
-        sql = provider.get('find_manager_order.sql', dict(user_id=self.id, avoid_status="Завершен"))
-        result, schema = select(current_app.config['db_config'], sql)
-        render_data = {
-            'status': True if result else False,
-            'data': [i for i in result]
-        }
-        return render_template('internal_user_menu_for_manager.html', render_data=render_data)
-
-    def show_director(self):
-        return render_template('internal_user_menu_for_director.html')
-
-    def show_hall_admin(self):
-        order_status = 'В обработке'
-        sql = provider.get('find_not_processed_orders.sql', dict(order_status=order_status))
-        result, schema = select(current_app.config['db_config'], sql)
-        render_data = {
-            'status': True if result else False,
-            'data': [i for i in result]
-        }
-        return render_template('internal_user_menu_for_hall_admin.html', render_data=render_data)
+        return render_template(template, render_data=render_data)

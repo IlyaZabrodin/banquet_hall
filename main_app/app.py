@@ -29,14 +29,7 @@ app.config['db_config'] = json.load(open(project_path / 'configs/db.json'))
 @login_required()
 def menu_choice():
     user = Properties(session.get('user_id'), session.get('user_group'))
-    if session.get('user_group') == 'client':
-        return user.show_client()
-    elif session.get('user_group') == 'manager':
-        return user.show_manager()
-    elif session.get('user_group') == 'director':
-        return user.show_director()
-    elif session.get('user_group') == 'hall_admin':
-        return user.show_hall_admin()
+    return user.show_template()
 
 
 @app.route('/access_fail')

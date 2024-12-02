@@ -1,16 +1,8 @@
 SELECT
     idmanager,
     passport_data
-FROM manager
-WHERE 1=1
-    AND (layoff_date>DATE('$order_date') OR layoff_date is NULL)
-    AND employment_date<DATE('$order_date')
-    AND (idmanager NOT IN (
-        SELECT idmanager
-        FROM client_order
-        WHERE DATE(banquet_time) = DATE('$order_date')
-    ) OR (
-        SELECT idmanager
-        FROM client_order
-        WHERE DATE(banquet_time) = DATE('$order_date')
-    ) is NULL);
+FROM manager AS m
+LEFT JOIN client_order AS o ON (o.idmanager=m.idmanager AND DATE(o.banquet_time) = DATE('$order_date'))
+WHERE (m.layoff_date>DATE('$order_date') OR m.layoff_date is NULL)
+    AND m.employment_date<DATE('$order_date')
+    AND o.idmanager IS NULL;
