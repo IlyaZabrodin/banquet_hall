@@ -46,7 +46,7 @@
                     </p>
                         <input type="hidden" name="procedure_name" value="public.write_to_product_report">
                         <input type="hidden" name="name" value="report_card">
-                        {% if context.u_group == "director" %}
+                        {% if context.u_group == "hall_admin" %}
                             <button type="submit" name="action" value="create">Создать отчёт</button>
                         {% endif %}
                         <button type="submit" name="action" value="view">Посмотреть отчёт</button>

@@ -11,7 +11,7 @@ provider = SQLProvider(os.path.join(os.path.dirname(__file__), 'sql'))
 
 
 @blueprint_report.route('/', methods=['GET'])
-@login_required(['director', 'manager'])
+@login_required(['director', 'hall_admin'])
 def start_report():
     session['current_year'] = datetime.now().year
     context = {
@@ -22,7 +22,7 @@ def start_report():
 
 
 @blueprint_report.route('/', methods=['POST'])
-@login_required(['director', 'manager'])
+@login_required(['director', 'hall_admin'])
 def report_handler_result():
     report_list = [
         {'rep_id': '1', 'proc_name': 'schema_1.SaleReport', 'sql': 'sales_report.sql'},
@@ -33,7 +33,7 @@ def report_handler_result():
         if request.form['report_choice'] == report['rep_id']:
             context = report
             break
-    context["db_config"] = current_app.config['db_config']
+    context['db_config'] = current_app.config['db_config']
     context['month'] = request.form['month_choice']
     context['year'] = request.form['year_choice']
     context['action'] = request.form['action']

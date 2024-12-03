@@ -2,6 +2,7 @@
 
 {% block internal_user_menu_for_hall_admin %}
 <p align="center">
+    <a class="btn btn-success" href="{{ url_for('bp_report.start_report') }}">Работа с отчетами</a><br><br>
     <a class="btn btn-success" href="{{ url_for('bp_query.form_render') }}">Посмотреть загруженность залов</a><br><br>
     <a class="btn btn-primary" href="/exit">Выйти из системы</a>
 </p>
@@ -30,7 +31,7 @@
                         <td>{{ phone }}</td>
                         <td>{{ user }}</td>
                         <td>
-                            <a class="btn btn-primary" href="{{ url_for('bp_order_distribute.order_distribute', param1=ord_id, param2=time, param3=phone) }}">Обработать</a>
+                            <a class="btn btn-primary" href="{{ url_for('bp_order_distribute.order_distribute', order_id=ord_id, order_time=time, client_phone=phone) }}">Обработать</a>
                         </td>
                     </tr>
                 {% endfor %}
