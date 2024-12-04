@@ -1,0 +1,63 @@
+{% extends 'basket_base.html' %}
+
+{% block basket_dynamic %}
+
+{% macro render_item(item, show_amount = False, show_form = False) %}
+
+ <div class="menu">
+    <span class="item">{{item['dish_name']}}</span><br>
+    <span class="price">{{item['dish_price']}}&nbsp; р/{{item['dish_weight']}}</span><br><br>
+     {% if show_amount %}
+     <span>Количество: {{item['amount']}}</span><br>
+     <form method="POST" action="">
+         <input type="hidden" name="dish_display" value="{{item['iddish']}}" />
+         <button type="submit" name="dish_reduce" value="minus" class="plusminus">-</button>
+         <button type="submit" name="dish_increase" value="plus" class="plusminus">+</button>
+     </form>
+     {% endif %}
+
+     {% if show_form %}
+     <form method="POST" action="">
+        <input type="hidden" name="dish_display" value="{{item['iddish']}}" />
+        <input type="submit"  value="Купить" name="buy" />
+    </form>
+     {% endif %}
+ </div>
+
+{% endmacro %}
+
+<div class="container">
+    {% if message %}
+        <div class="message" style="color: red;">
+            {{ message }}
+        </div>
+    {% endif %}
+
+    <div class="row">
+        <div class="col-md-8">
+            <h2>Меню ресторана</h2><br>
+            {% if dishes %}
+            {% for dish in dishes %}
+                {{ render_item(dish, show_form = True, show_amount = False) }}
+            {% endfor %}
+            {% else %}
+            <span>Меню пусто</span>
+            {% endif %}
+        </div>
+        <div class="col-md-4">
+            <h2>Корзина</h2><br>
+            <a href="{{url_for('bp_dish_list.clear_basket')}}">Очистить корзину</a><br>
+            {% if basket %}
+            {% for item in basket %}
+            {{ render_item(item, show_form = False, show_amount = True) }}
+            {% endfor %}
+            <span>Сумма к оплате:   {{ basket_price }}</span>
+            {% else %}
+            <span>Ваша корзина пуста</span>
+            {% endif %}
+        </div>
+    </div>
+
+</div>
+
+{% endblock %}
