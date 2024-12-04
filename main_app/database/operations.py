@@ -1,4 +1,5 @@
 import os
+from pymysql.err import OperationalError
 from database.connection import DBContextManager
 from database.sql_provider import SQLProvider
 
@@ -80,3 +81,31 @@ def call_procedure(db_config: dict, proc_name: str, *args):
         cursor.execute(call_statement)
         res = cursor.fetchone()[0]
     return res
+
+
+def insert_one(db_config: dict, _sql: str):
+    with DBContextManager(db_config) as cursor:
+        if cursor is None:
+            raise ValueError("Cursor not created")
+        else:
+            try:
+                cursor.execute(_sql)
+            except OperationalError as error:
+                print("error: ", error)
+                return False
+
+    return True
+
+
+def update(db_config: dict, _sql: str):
+    with DBContextManager(db_config) as cursor:
+        if cursor is None:
+            raise ValueError("Cursor not created")
+        else:
+            try:
+                cursor.execute(_sql)
+            except OperationalError as error:
+                print("error: ", error)
+                return False
+
+    return True

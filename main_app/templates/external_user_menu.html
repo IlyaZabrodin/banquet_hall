@@ -27,7 +27,7 @@
                             {% elif status == 'Подтвержден' %}
                                 <span style="color: blue;">{{ status }}</span>
                                 <th>Теперь вы можете предварительно выбрать блюда для вашего банкета:</th>
-                                <a class="btn btn-success" href="{{ url_for('bp_dish_list_make.dish_list_make') }}">Меню</a><br><br>
+                                <a class="btn btn-success" href="{{ url_for('bp_dish_list.basket_index', order_id=id) }}">Выбрать блюда</a><br><br>
                             {% elif status == 'Полностью оформлен' %}
                                 <span style="color: green;">{{ status }}</span>
                                 <th>Ждем вас в указанную вами дату!</th>

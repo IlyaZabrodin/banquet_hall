@@ -6,7 +6,7 @@ from authorisation.route import auth_blueprint
 from query_execution.route import query_blueprint
 from report.route import blueprint_report
 from order_making.route import blueprint_order_make
-from making_dish_list.route import blueprint_dish_list_make
+from dish_list.route import blueprint_dish_list
 from order_distribution.route import blueprint_order_distribute
 from access import login_required
 from user_properties import Properties
@@ -17,7 +17,7 @@ app.register_blueprint(auth_blueprint, url_prefix='/authorisation')
 app.register_blueprint(query_blueprint, url_prefix='/query_form')
 app.register_blueprint(blueprint_report, url_prefix='/report')
 app.register_blueprint(blueprint_order_make, url_prefix='/order_making')
-app.register_blueprint(blueprint_dish_list_make, url_prefix='/dish_list_making')
+app.register_blueprint(blueprint_dish_list, url_prefix='/dish_list')
 app.register_blueprint(blueprint_order_distribute, url_prefix='/order_distribution')
 app.secret_key = 'SuperKey'
 
