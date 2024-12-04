@@ -34,11 +34,13 @@
                             {% elif status == 'Ждет оплаты' %}
                                 <span style="color: orange;">{{ status }}</span>
                                 <th>Оплатите позиции, заказанные вами на месте, чья стоимость не входила в аванс.</th>
+                                <a class="btn btn-primary" href="{{ url_for('bp_query.form_render', order_id=id) }}">Посмотреть общий счет</a>
                             {% elif status == 'Завершен' %}
                                 <span style="color: green;">{{ status }}</span>
+                                <th>Спасибо, что выбрали нас!</th>
                             {% elif status == 'Отменен' %}
                                 <span style="color: red;">{{ status }}</span>
-                                <th>Упс...Что-то пошло не так.</th>
+                                <th>Заказ отменен.</th>
                             {% else %}
                                 <span style="color: gray;">{{ status }}</span>
                             {% endif %}

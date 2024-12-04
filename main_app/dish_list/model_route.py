@@ -13,7 +13,7 @@ class ProductInfoRespronse:
     status: bool
 
 
-def model_route_transaction_order(db_config: dict, sql_provider, basket: dict, price: int, order_id: int):
+def model_route_transaction_order(db_config: dict, sql_provider, basket: dict, price: int, order_id: int, role: str):
     total_amount = 0
     for key, value in basket.items():
         _sql = sql_provider.get('insert_dish_list.sql',
@@ -22,10 +22,14 @@ def model_route_transaction_order(db_config: dict, sql_provider, basket: dict, p
         total_amount += int(value)
         if not result:
             raise OperationalError("Dish is not appended")
-    _sql = sql_provider.get('update_order.sql', dict(order_id=order_id, prepaid_expense=price,
-                                                     dish_amount=total_amount, order_status="Полностью оформлен"))
+    if role == 'client':
+        _sql = sql_provider.get('update_order.sql', dict(order_id=order_id, prepaid_expense=price,
+                                                         dish_amount=total_amount, order_status="Полностью оформлен"))
+    else:
+        _sql = sql_provider.get('manager_update_order.sql', dict(order_id=order_id, add_pay=price,
+                                                                 add_amount=total_amount,
+                                                                 order_status="Ждет оплаты"))
     res = update(db_config, _sql)
-    print(res)
     if not res:
         raise OperationalError("Order list is not updated")
 

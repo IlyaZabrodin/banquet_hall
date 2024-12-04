@@ -1,7 +1,9 @@
 from flask import Blueprint, session, redirect, url_for, render_template, current_app, request
 from database.sql_provider import SQLProvider
 import os
+from pymysql import OperationalError
 from database.operations import select_dict
+from database.operations import update
 from dish_list.model_route import model_route_transaction_order
 from access import login_required
 
@@ -12,10 +14,11 @@ provider = SQLProvider(os.path.join(os.path.dirname(__file__), 'sql'))
 
 
 @blueprint_dish_list.route('/', methods=['GET'])
-@login_required(['client'])
+@login_required(['client', 'manager'])
 def basket_index():
     order_id = request.args.get('order_id', default=None, type=int)
     err_code = request.args.get('err_code', default=None, type=int)
+    role = session['user_group']
     if order_id:
         session['order_id'] = order_id
 
@@ -29,12 +32,13 @@ def basket_index():
 
     if err_code:
         return render_template('basket_dynamic.html', dishes=dishes, basket=current_basket, basket_price=current_price,
-                               message="Запрос не выполнен")
-    return render_template('basket_dynamic.html', dishes=dishes, basket=current_basket, basket_price=current_price)
+                               role=role, message="Запрос не выполнен")
+    return render_template('basket_dynamic.html', dishes=dishes, basket=current_basket, basket_price=current_price,
+                           role=role)
 
 
 @blueprint_dish_list.route('/', methods=['POST'])
-@login_required(['client'])
+@login_required(['client', 'manager'])
 def basket_main():
     db_config = current_app.config['db_config']
     if request.form.get('buy'):
@@ -86,7 +90,7 @@ def basket_main():
 
 
 @blueprint_dish_list.route('/clear_basket')
-@login_required(['client'])
+@login_required(['client', 'manager'])
 def clear_basket():
     if session.get('basket', {}):
         session.pop('basket')
@@ -95,20 +99,38 @@ def clear_basket():
 
 
 @blueprint_dish_list.route('/save_order')
-@login_required(['client'])
+@login_required(['client', 'manager'])
 def save_order():
+    role = request.args.get('role', default=None, type=str)
+
     if not session.get('basket', {}):
         return redirect(url_for('bp_dish_list.basket_index'))
     current_basket = session.get('basket', {})
     current_price = session.get('basket_price', 0)
     order_id = session.get('order_id')
     result = model_route_transaction_order(current_app.config['db_config'], provider,
-                                           current_basket, current_price, order_id)
+                                           current_basket, current_price, order_id, role)
     if result.status:
         clear_basket()
-        return redirect(url_for('menu_choice'))
+        if role == 'client':
+            return redirect(url_for('menu_choice'))
+        else:
+            return redirect(url_for('menu_choice'))
     else:
         return redirect(url_for('bp_dish_list.basket_index', err_code=1))
+
+
+@blueprint_dish_list.route('/complete_order')
+@login_required(['manager'])
+def complete_order():
+    db_config = current_app.config['db_config']
+    order_id = session.get('order_id')
+
+    _sql = provider.get('complete_order.sql', dict(order_id=order_id, order_status="Завершен"))
+    res = update(db_config, _sql)
+    if not res:
+        raise OperationalError("Order list is not updated")
+    return redirect(url_for('menu_choice'))
 
 
 def form_basket(current_basket: dict):

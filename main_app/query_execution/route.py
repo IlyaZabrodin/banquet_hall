@@ -23,16 +23,24 @@ def form_render():
         if session.get('user_group') in ['hall_admin']:
             return render_template('query_form_workload.html')
         else:
-            sql_statement = provider.get('show_menu.sql')
+            if request.args.get('order_id', default=None, type=int):
+                sql = provider.get('show_order_dishes.sql', dict(order_id=request.args.get('order_id', default=None, type=int)))
+                render_data = select_dict(current_app.config['db_config'], sql)
 
-            sql = provider.get('show_menu.sql')
-            render_data = select_dict(current_app.config['db_config'], sql)
+                return render_template(
+                    'order_out.html',
+                    render_data=render_data,
+                    status_code=1
+                )
+            else:
+                sql = provider.get('show_menu.sql')
+                render_data = select_dict(current_app.config['db_config'], sql)
 
-            return render_template(
-                'query_out.html',
-                render_data=render_data,
-                status_code=2
-            )
+                return render_template(
+                    'query_out.html',
+                    render_data=render_data,
+                    status_code=2
+                )
     elif request.method == 'POST':
         hall_id = request.form.get('hall_id', '')
         sql = provider.get('show_hall_workload.sql', dict(hall_id=hall_id,

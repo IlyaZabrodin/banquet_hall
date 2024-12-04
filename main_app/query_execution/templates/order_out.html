@@ -1,0 +1,29 @@
+{% extends 'query_base.html' %}
+
+{% block order_out %}
+
+{% if render_data %}
+<table>
+    <tr class="title">
+        <td>Позиция</td>
+        <td>Количество</td>
+        <td>Стоимость за 1</td>
+        <td>Общая стоимость</td>
+    </tr>
+    {% set ns = namespace(sum_column=0) %}
+    {% for line in render_data %}
+        <tr>
+            {% for column in line.values() %}
+                <td>{{ column }}</td>
+                {% if loop.index0 % 4 == 3 %}
+                    {% set ns.sum_column = ns.sum_column + column|int %}
+                {% endif %}
+            {% endfor %}
+        </tr>
+    {% endfor %}
+</table>
+<p>Общая сумма банкета: {{ ns.sum_column }}</p>
+{% else %}
+<h1>Данных не найдено.</h1>
+{% endif %}
+{% endblock %}
