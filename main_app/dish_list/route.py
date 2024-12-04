@@ -113,7 +113,7 @@ def save_order():
     if result.status:
         clear_basket()
         if role == 'client':
-            return redirect(url_for('menu_choice'))
+            return redirect(url_for('bp_payment.payment_form', order_id=order_id))
         else:
             return redirect(url_for('menu_choice'))
     else:

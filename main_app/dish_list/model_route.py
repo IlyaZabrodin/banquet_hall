@@ -24,7 +24,7 @@ def model_route_transaction_order(db_config: dict, sql_provider, basket: dict, p
             raise OperationalError("Dish is not appended")
     if role == 'client':
         _sql = sql_provider.get('update_order.sql', dict(order_id=order_id, prepaid_expense=price,
-                                                         dish_amount=total_amount, order_status="Полностью оформлен"))
+                                                         dish_amount=total_amount))
     else:
         _sql = sql_provider.get('manager_update_order.sql', dict(order_id=order_id, add_pay=price,
                                                                  add_amount=total_amount,
