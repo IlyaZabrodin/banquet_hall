@@ -39,7 +39,7 @@
                         <td>{{ user }}</td>
                         {% if status == 'Полностью оформлен' %}
                         <td>
-                            <a class="btn btn-primary" href="{{ url_for('bp_dish_list.basket_index', order_id=ord_id) }}">Обработать стоимость</a>
+                            <a class="btn btn-primary" href="{{ url_for('bp_dish_list.basket_index', order_id=ord_id) }}">Обработать стоимость</a><br>
                             <a class="btn btn-primary" href="{{ url_for('bp_query.form_render', order_id=ord_id) }}">Посмотреть заказ</a>
                         </td>
                         {% endif %}
