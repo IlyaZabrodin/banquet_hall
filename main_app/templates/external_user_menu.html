@@ -6,7 +6,7 @@
     <a class="btn btn-success" href="{{ url_for('bp_query.form_render') }}">Посмотреть меню ресторана</a><br><br>
     <a class="btn btn-primary" href="/exit">Выйти из системы</a>
 </p>
-<form>
+<div>
     <h2>Мои заказы:</h2>
     {% if render_data['status'] %}
         <table border="1">
@@ -26,7 +26,9 @@
                                 <th>Ожидайте подтверждения заказа. Скоро с вами свяжется сотрудник.</th>
                             {% elif status == 'Подтвержден' %}
                                 <span style="color: blue;">{{ status }}</span>
-                                <th>Теперь вы можете предварительно выбрать блюда для вашего банкета:</th>
+                                <th>Теперь вы можете предварительно выбрать блюда для вашего банкета:
+                                Напоминаем, отмена заказа после внесения аванса возможна только за 2 дня,
+                                для этого необходимо связаться с нашими сотрудниками.</th>
                             {% elif status == 'Полностью оформлен' %}
                                 <span style="color: green;">{{ status }}</span>
                                 <th>Ждем вас в указанную вами дату!</th>
@@ -36,14 +38,15 @@
                             {% elif status == 'Завершен' %}
                                 <span style="color: green;">{{ status }}</span>
                                 <th>Спасибо, что выбрали нас!</th>
-                            {% elif status == 'Отменен' %}
-                                <span style="color: red;">{{ status }}</span>
-                                <th>Заказ отменен.</th>
                             {% else %}
                                 <span style="color: gray;">{{ status }}</span>
                             {% endif %}
                             {% if status == 'Подтвержден' %}
-                                <td><a class="btn btn-success" href="{{ url_for('bp_dish_list.basket_index', order_id=id) }}">Выбрать блюда</a></td>
+                                <td><a class="btn btn-success" href="{{ url_for('bp_dish_list.basket_index', order_id=id) }}">Выбрать блюда</a><br>
+                                     <form action="{{ url_for('cancel_order_handler', order_id=id) }}" method="post">
+                                        <button class="btn btn-danger" type="submit">Отменить заказ</button>
+                                    </form>
+                                </td>
                             {% elif status == 'Ждет оплаты' %}
                                 <td><a class="btn btn-success" href="{{ url_for('bp_payment.payment_form', order_id=id) }}">К оплате</a><br>
                                     <a class="btn btn-primary" href="{{ url_for('bp_query.form_render', order_id=id) }}">Посмотреть общий счет</a></td>
@@ -56,5 +59,5 @@
     {% else %}
         <p style="color: black;">Заказов пока что нет.</p>
     {% endif %}
-</form>
+</div>
 {% endblock %}

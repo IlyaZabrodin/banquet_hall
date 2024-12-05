@@ -1,6 +1,7 @@
 import json
 from pathlib import Path
-from flask import Flask, render_template, request, session, redirect
+from flask import Flask, render_template, request, session, redirect, url_for, current_app
+from pymysql.err import OperationalError
 
 from authorisation.route import auth_blueprint
 from query_execution.route import query_blueprint
@@ -11,6 +12,7 @@ from order_distribution.route import blueprint_order_distribute
 from payment.route import blueprint_payment
 from access import login_required
 from user_properties import Properties
+from database.order_cancellation import cancel_order
 
 app = Flask(__name__)
 
@@ -30,6 +32,9 @@ app.config['db_config'] = json.load(open(project_path / 'configs/db.json'))
 @app.route('/')
 @login_required()
 def menu_choice():
+    print(app.url_map)
+    order_id = request.args.get('order_id', default=None, type=int)
+    print(order_id)
     user = Properties(session.get('user_id'), session.get('user_group'))
     return user.show_template()
 
@@ -45,6 +50,16 @@ def access_fail_handler():
 def logout_handler():
     session.clear()
     return render_template('exit.html')
+
+
+@app.route('/cancel-order', methods=['POST'])
+@login_required(['client', 'manager'])
+def cancel_order_handler():
+    order_id = request.args.get('order_id', default=None, type=int)
+    res1, res2 = cancel_order(current_app.config['db_config'], order_id)
+    if not res1 or not res2:
+        raise OperationalError("Dish lists not deleted")
+    return redirect(url_for('menu_choice'))
 
 
 if __name__ == '__main__':

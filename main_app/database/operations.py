@@ -109,3 +109,17 @@ def update(db_config: dict, _sql: str):
                 return False
 
     return True
+
+
+def delete(db_config: dict, _sql: str):
+    with DBContextManager(db_config) as cursor:
+        if cursor is None:
+            raise ValueError("Cursor not created")
+        else:
+            try:
+                cursor.execute(_sql)
+            except OperationalError as error:
+                print("error: ", error)
+                return False
+
+    return True

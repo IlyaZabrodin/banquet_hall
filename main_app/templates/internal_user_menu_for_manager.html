@@ -43,6 +43,9 @@
                             <a class="btn btn-primary" href="{{ url_for('bp_query.form_render', order_id=ord_id) }}">Посмотреть заказ</a>
                         </td>
                         {% endif %}
+                        <td><form action="{{ url_for('cancel_order_handler', order_id=ord_id) }}" method="post">
+                            <button type="submit">Удалить заказ</button>
+                        </form></td>
                     </tr>
                 {% endfor %}
             </tbody>
