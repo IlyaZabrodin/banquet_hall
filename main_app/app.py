@@ -32,9 +32,6 @@ app.config['db_config'] = json.load(open(project_path / 'configs/db.json'))
 @app.route('/')
 @login_required()
 def menu_choice():
-    print(app.url_map)
-    order_id = request.args.get('order_id', default=None, type=int)
-    print(order_id)
     user = Properties(session.get('user_id'), session.get('user_group'))
     return user.show_template()
 
