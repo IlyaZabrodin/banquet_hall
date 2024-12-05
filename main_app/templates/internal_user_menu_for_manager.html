@@ -5,7 +5,7 @@
     <a class="btn btn-success" href="{{ url_for('bp_query.form_render') }}">Посмотреть меню ресторана</a><br><br>
     <a class="btn btn-primary" href="/exit">Выйти из системы</a>
 </p>
-<form>
+<div>
     <h2>Заказы зарезервированные на вас:</h2>
     {% if render_data['status'] %}
         <table border="1">
@@ -43,8 +43,8 @@
                             <a class="btn btn-primary" href="{{ url_for('bp_query.form_render', order_id=ord_id) }}">Посмотреть заказ</a>
                         </td>
                         {% endif %}
-                        <td><form action="{{ url_for('cancel_order_handler', order_id=ord_id) }}" method="post">
-                            <button type="submit">Удалить заказ</button>
+                        <td><form action="{{ url_for('cancel_order_handler', order_id=id) }}" method="post">
+                            <button class="btn btn-danger" type="submit">Отменить заказ</button>
                         </form></td>
                     </tr>
                 {% endfor %}
@@ -53,5 +53,5 @@
     {% else %}
         <p style="color: black;">На данный момент на вас не найдено заказов.</p>
     {% endif %}
-</form>
+</div>
 {% endblock %}
