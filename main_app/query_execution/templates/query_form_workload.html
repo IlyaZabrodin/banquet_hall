@@ -4,7 +4,11 @@
 <form action="" method="post">
     <!--<input type="text" name="product-name">
     <input type="submit" value="Send">-->
-    <h3>Проверка загруженности залов</h3>
+    {% if query_code == 1 %}
+        <h3>Проверка загруженности залов на предстоящий месяц</h3>
+    {% else %}
+        <h3>Проверка доходности залов за прошедший месяц</h3>
+    {% endif %}
     <label for="hall_id">Введите номер необходимого зала:</label><br>
     <input type="text" name="hall_id" id="hall_id"><br>
     <input type="submit" value="Показать"><br><br>

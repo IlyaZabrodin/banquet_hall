@@ -1,17 +1,8 @@
 import os
-import json
-from pathlib import Path
-from flask import Flask, render_template, request, session, redirect, current_app
+from flask import render_template, current_app
 
 from database.sql_provider import SQLProvider
 from database.operations import select
-
-from authorisation.route import auth_blueprint
-from query_execution.route import query_blueprint
-from report.route import blueprint_report
-from order_making.route import blueprint_order_make
-from order_distribution.route import blueprint_order_distribute
-from access import login_required
 
 provider = SQLProvider(os.path.join(os.path.dirname(__file__), 'sql'))
 

@@ -7,8 +7,8 @@
     <tr class="title">
         <td>Позиция</td>
         <td>Количество</td>
-        <td>Стоимость за 1</td>
-        <td>Общая стоимость</td>
+        <td>Стоимость за 1 (рубли)</td>
+        <td>Общая стоимость (рубли)</td>
     </tr>
     {% set ns = namespace(sum_column=0) %}
     {% for line in render_data %}
@@ -22,7 +22,7 @@
         </tr>
     {% endfor %}
 </table>
-<p>Общая сумма банкета: {{ ns.sum_column }}</p>
+<p>Общая сумма банкета (рубли): {{ ns.sum_column }}</p>
 {% else %}
 <h1>Данных не найдено.</h1>
 {% endif %}

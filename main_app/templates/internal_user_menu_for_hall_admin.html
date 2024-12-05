@@ -2,8 +2,9 @@
 
 {% block internal_user_menu_for_hall_admin %}
 <p align="center">
-    <a class="btn btn-success" href="{{ url_for('bp_report.start_report') }}">Работа с отчетами</a><br><br>
-    <a class="btn btn-success" href="{{ url_for('bp_query.form_render') }}">Посмотреть загруженность залов</a><br><br>
+    <a class="btn btn-primary" href="{{ url_for('bp_report.start_report') }}">Работа с отчетами</a><br><br>
+    <a class="btn btn-success" href="{{ url_for('bp_query.form_render', query_code=1) }}">Посмотреть загруженность залов</a><br><br>
+    <a class="btn btn-success" href="{{ url_for('bp_query.form_render', query_code=2) }}">Посмотреть доходность залов</a><br><br>
     <a class="btn btn-primary" href="/exit">Выйти из системы</a>
 </p>
 <form>
