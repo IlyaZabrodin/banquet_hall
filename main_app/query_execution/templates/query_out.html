@@ -16,7 +16,7 @@
                 <td>Зарезервированное время</td>
                 <td>Ожидаемое количество человек</td>
             </tr>
-        {% elif query_code == 2 %}
+            {% elif query_code == 2 %}
             <tr class="title">
                 <td>Номер зала</td>
                 <td>Стоимость заказа</td>
@@ -39,7 +39,13 @@
     {% endfor %}
 </table>
 {% else %}
+{% if empty_code == 1%}
+    <div class="error-message" style="color: red;">
+        <h3>Номер зала не введен. Пустой запрос.</h3>
+    </div>
+{% else %}
 <h1>Данных не найдено.</h1>
+{% endif %}
 {% endif %}
 
 {% if status_code == 1 %}

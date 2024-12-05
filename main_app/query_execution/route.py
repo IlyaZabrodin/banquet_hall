@@ -44,6 +44,9 @@ def form_render():
                 )
     elif request.method == 'POST':
         hall_id = request.form.get('hall_id', '')
+        empty_code = 0
+        if len(hall_id) == 0:
+            empty_code = 1
         if session["query_code"] == 1:
             sql = provider.get('show_hall_workload.sql', dict(hall_id=hall_id, tomorrow_date=(
                     datetime.now() + timedelta(days=1)).strftime("%Y-%m-%d")))
@@ -56,5 +59,6 @@ def form_render():
             'query_out.html',
             render_data=render_data,
             status_code=1,
-            query_code=session["query_code"]
+            query_code=session["query_code"],
+            empty_code=empty_code
         )
