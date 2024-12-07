@@ -4,25 +4,29 @@
 
 {% macro render_item(item, show_amount = False, show_form = False) %}
 
- <div class="menu">
-    <span class="item">{{item['dish_name']}}</span><br>
-    <span class="price">{{item['dish_price']}}&nbsp; р/{{item['dish_weight']}}</span><br><br>
-     {% if show_amount %}
-     <span>Количество: {{item['amount']}}</span><br>
-     <form method="POST" action="">
-         <input type="hidden" name="dish_display" value="{{item['iddish']}}" />
-         <button type="submit" name="dish_reduce" value="minus" class="plusminus">-</button>
-         <button type="submit" name="dish_increase" value="plus" class="plusminus">+</button>
-     </form>
-     {% endif %}
+<div class="menu card mb-3">
+    <div class="card-body">
+        <h5 class="card-title">{{ item['dish_name'] }}</h5>
+        <p class="card-text">
+            <strong>{{ item['dish_price'] }} р/{{ item['dish_weight'] }}</strong>
+        </p>
+        {% if show_form %}
+        <form method="POST" action="">
+            <input type="hidden" name="dish_display" value="{{ item['iddish'] }}" />
+            <button type="submit" class="btn btn-success" value="Купить" name="buy">Купить</button>
+        </form>
+        {% endif %}
+        {% if show_amount %}
+        <p class="mt-3">Количество: <strong>{{ item['amount'] }}</strong></p>
+        <form method="POST" action="" class="d-flex gap-2">
+            <input type="hidden" name="dish_display" value="{{ item['iddish'] }}" />
+            <button type="submit" name="dish_reduce" value="minus" class="btn btn-outline-danger">-</button>
+            <button type="submit" name="dish_increase" value="plus" class="btn btn-outline-success">+</button>
+        </form>
+        {% endif %}
+    </div>
+</div>
 
-     {% if show_form %}
-     <form method="POST" action="">
-        <input type="hidden" name="dish_display" value="{{item['iddish']}}" />
-        <input type="submit"  value="Купить" name="buy" />
-    </form>
-     {% endif %}
- </div>
 
 {% endmacro %}
 
@@ -52,18 +56,24 @@
             <span>Меню пусто</span>
             {% endif %}
         </div>
+
         <div class="col-md-4">
-            <h2>Корзина</h2><br>
-            <a href="{{url_for('bp_dish_list.clear_basket')}}">Очистить корзину</a><br>
-            {% if basket %}
-            {% for item in basket %}
-            {{ render_item(item, show_form = False, show_amount = True) }}
-            {% endfor %}
-            <span>Сумма к оплате:   {{ basket_price }}</span>
-            {% else %}
-            <span>Ваша корзина пуста</span>
-            {% endif %}
+            <div class="card-header bg-primary text-white">
+                <h4>Корзина</h4>
+            </div>
+            <div class="card-body">
+                {% if basket %}
+                    {% for item in basket %}
+                        {{ render_item(item, show_form = False, show_amount = True) }}
+                    {% endfor %}
+                    <p class="mt-3">Сумма к оплате: <strong>{{ basket_price }} р</strong></p>
+                    <a href="{{ url_for('bp_dish_list.clear_basket') }}" class="btn btn-danger">Очистить корзину</a>
+                {% else %}
+                    <p>Ваша корзина пуста</p>
+                {% endif %}
+            </div>
         </div>
+
     </div>
 
 </div>
