@@ -83,20 +83,6 @@ def call_procedure(db_config: dict, proc_name: str, *args):
     return res
 
 
-def insert_one(db_config: dict, _sql: str):
-    with DBContextManager(db_config) as cursor:
-        if cursor is None:
-            raise ValueError("Cursor not created")
-        else:
-            try:
-                cursor.execute(_sql)
-            except OperationalError as error:
-                print("error: ", error)
-                return False
-
-    return True
-
-
 def update(db_config: dict, _sql: str):
     with DBContextManager(db_config) as cursor:
         if cursor is None:

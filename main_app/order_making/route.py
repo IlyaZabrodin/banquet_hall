@@ -1,11 +1,7 @@
 import os
 from flask import Blueprint, render_template, request, session, redirect, url_for, current_app
 
-from datetime import datetime, timedelta
-from dateutil.relativedelta import relativedelta
-
 from database.sql_provider import SQLProvider
-from database.connection import DBContextManager
 from access import login_required
 from .model_route import model_route
 

@@ -1,22 +1,18 @@
-from database.operations import select
 from database.connection import DBContextManager
 
 from flask import session
 from datetime import datetime, timedelta
-from dateutil.relativedelta import relativedelta
 
 
 def model_route(sql_provider, context: dict):
     today = datetime.now()
     min_date = (today + timedelta(days=1)).strftime("%Y-%m-%d")  # Завтрашний день
-    max_date = (today + relativedelta(months=1)).strftime("%Y-%m-%d")  # Через месяц
-    min_date_count = (today + timedelta(days=1)).date()  # Завтрашний день
-    max_date_count = (today + relativedelta(months=1)).date()  # Через месяц
+    max_date = (today + timedelta(days=30)).strftime("%Y-%m-%d")  # Через месяц
 
     time_options = generate_time_options(10, 21, 30)
     booked_dates = get_booked_dates(sql_provider, context,
                                     (datetime.now() + timedelta(days=1)).strftime("%Y-%m-%d"),
-                                    (datetime.now() + relativedelta(months=1)).strftime("%Y-%m-%d"))
+                                    (datetime.now() + timedelta(days=30)).strftime("%Y-%m-%d"))
     dates = {
         "min_date": min_date,
         "max_date": max_date,

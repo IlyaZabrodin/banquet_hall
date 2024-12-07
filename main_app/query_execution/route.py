@@ -1,10 +1,8 @@
 import os
 from flask import Blueprint, render_template, request, session, redirect, current_app
 from datetime import datetime, timedelta
-from dateutil.relativedelta import relativedelta
 
 from database.sql_provider import SQLProvider
-from database.connection import DBContextManager
 from database.operations import select_dict
 from access import login_required
 
@@ -52,7 +50,7 @@ def form_render():
                     datetime.now() + timedelta(days=1)).strftime("%Y-%m-%d")))
         elif session["query_code"] == 2:
             sql = provider.get('show_hall_profit.sql', dict(hall_id=hall_id, order_status="Завершен", date_month_ago=(
-                    datetime.now() - relativedelta(months=1)).strftime("%Y-%m-%d")))
+                    datetime.now() - timedelta(days=30)).strftime("%Y-%m-%d")))
         render_data = select_dict(current_app.config['db_config'], sql)
 
         return render_template(

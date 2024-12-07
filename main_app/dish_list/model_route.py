@@ -1,8 +1,4 @@
 from dataclasses import dataclass
-from flask import session
-
-from database.operations import insert_one
-from database.operations import update
 from database.connection import DBContextManager
 from pymysql import OperationalError
 

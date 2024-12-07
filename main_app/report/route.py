@@ -1,5 +1,5 @@
 import os
-from datetime import datetime, timedelta
+from datetime import datetime
 from flask import Flask, render_template, Blueprint, current_app, request, session
 from database.sql_provider import SQLProvider
 from access import login_required
