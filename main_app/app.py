@@ -27,6 +27,7 @@ app.secret_key = 'SuperKey'
 
 project_path = Path(__file__).resolve().parent
 app.config['db_config'] = json.load(open(project_path / 'configs/db.json'))
+app.config['cache_config'] = json.load(open(project_path / 'configs/cache.json'))
 
 
 @app.route('/')

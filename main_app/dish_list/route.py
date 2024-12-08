@@ -6,6 +6,7 @@ from database.operations import select_dict
 from database.operations import update
 from dish_list.model_route import model_route_transaction_order
 from access import login_required
+from cache.wrapper import fetch_from_cache
 
 
 blueprint_dish_list = Blueprint('bp_dish_list', __name__, template_folder='templates')
@@ -23,8 +24,10 @@ def basket_index():
         session['order_id'] = order_id
 
     db_config = current_app.config['db_config']
+    cache_config = current_app.config['cache_config']
+    cache_select_dict = fetch_from_cache('items_cached', cache_config)(select_dict)
     _sql = provider.get('show_menu.sql')
-    dishes = select_dict(db_config, _sql)
+    dishes = cache_select_dict(db_config, _sql)
 
     current_basket = session.get('basket', {})  # get basket or return default={}
     current_price = session.get('basket_price', 0)
