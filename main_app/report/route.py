@@ -24,20 +24,10 @@ def start_report():
 @blueprint_report.route('/', methods=['POST'])
 @login_required(['director', 'hall_admin'])
 def report_handler_result():
-    report_list = [
-        {'rep_id': '1', 'proc_name': 'schema_1.SaleReport', 'sql': 'sales_report.sql'},
-        {'rep_id': '2', 'proc_name': 'schema_1.OrderReport', 'sql': 'workers_report.sql'}
-    ]
-
-    for report in report_list:
-        if request.form['report_choice'] == report['rep_id']:
-            context = report
-            break
-    context['db_config'] = current_app.config['db_config']
-    context['month'] = request.form['month_choice']
-    context['year'] = request.form['year_choice']
-    context['action'] = request.form['action']
-
-    info = model_route(sql_provider=provider, context=context)
+    context = {
+        "year": session['current_year'],
+        "u_group": session.get('user_group'),
+    }
+    info = model_route(db_config=current_app.config['db_config'], sql_provider=provider, request=request)
 
     return render_template(f"product_report.html", context=info)

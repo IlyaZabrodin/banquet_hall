@@ -30,12 +30,21 @@
             {% if context.result %}
             <div>
                 <table border="1">
-                    <tr class="title">
-                        <td>ID отчёта</td>
-                        <td>ID менеджера</td>
-                        <td>Количество заказов</td>
-                        <td>Общая прибыль заказов</td>
-                    </tr>
+                    {% if context.id_rep == 1 %}
+                        <tr class="title">
+                            <td>Строка общей отчетности</td>
+                            <td>ID менеджера</td>
+                            <td>Количество заказов</td>
+                            <td>Общая прибыль заказов</td>
+                        </tr>
+                    {% else %}
+                        <tr class="title">
+                            <td>Строка общей отчетности</td>
+                            <td>ID зала</td>
+                            <td>Количество заказов</td>
+                            <td>Общая прибыль заказов</td>
+                        </tr>
+                    {% endif %}
                     {% for item in context.result %}
                     <tr>
                         <td>{{item[0]}}</td>

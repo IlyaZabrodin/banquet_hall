@@ -11,7 +11,20 @@ class InfoResponse:
     error_message: str = None
 
 
-def model_route(sql_provider, context: dict) -> InfoResponse:
+def model_route(db_config: dict, sql_provider, request) -> InfoResponse:
+    report_list = [
+        {'rep_id': '1', 'proc_name': 'schema_1.SaleReport', 'sql': 'sales_report.sql'},
+        {'rep_id': '2', 'proc_name': 'schema_1.OrderReport', 'sql': 'workers_report.sql'}
+    ]
+    context = {}
+    for report in report_list:
+        if request.form['report_choice'] == report['rep_id']:
+            context = report
+            break
+    context['month'] = request.form['month_choice']
+    context['year'] = request.form['year_choice']
+    context['action'] = request.form['action']
+
     id_rep = 1 if context["rep_id"] == '2' else 0
     if context['action'] == 'create':
         return_code = call_procedure(context['db_config'], context['proc_name'], id_rep,
@@ -26,7 +39,7 @@ def model_route(sql_provider, context: dict) -> InfoResponse:
         return InfoResponse(result=[], id_rep=id_rep, error_message=error_message, is_create=True)
     else:
         _sql = sql_provider.get(context["sql"], {"rep_month": context["month"], "rep_year": context["year"]})
-        result, schema = select(context["db_config"], _sql)
+        result, schema = select(db_config, _sql)
         if result or schema:
             if result:
                 return InfoResponse(result=result, id_rep=id_rep)
