@@ -4,7 +4,7 @@ from flask import session
 from datetime import datetime, timedelta
 
 
-def model_route(sql_provider, context: dict):
+def model_route(sql_provider, context: dict, request):
     today = datetime.now()
     min_date = (today + timedelta(days=1)).strftime("%Y-%m-%d")  # Завтрашний день
     max_date = (today + timedelta(days=30)).strftime("%Y-%m-%d")  # Через месяц
@@ -17,17 +17,20 @@ def model_route(sql_provider, context: dict):
         "min_date": min_date,
         "max_date": max_date,
         "time_options": time_options,
-        "booked_dates": booked_dates,
-        "error": None
+        "booked_dates": booked_dates
     }
 
     if context['action'] == 'GET':
         return dates
     else:
+        context['selected_date'] = request.form.get('date')
+        context['hall_id'] = request.form.get('place_amount')
+        context['selected_time'] = request.form.get('time')
+        context['client_phone'] = request.form.get('phone')
         # Проверяем, занята ли выбранная дата и количество мест
         if context['selected_date'] in booked_dates and booked_dates[context['selected_date']] == int(
                 context['hall_id']):
-            dates['error'] = "В выбранную вами дату зал на рассчитываемое количество человек уже занят. " \
+            context['error'] = "В выбранную вами дату зал на рассчитываемое количество человек уже занят. " \
                     "Пожалуйста, выберите другую дату или измените количество человек посадки."
             return dates
 

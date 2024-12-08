@@ -20,24 +20,20 @@ provider = SQLProvider(os.path.join(os.path.dirname(__file__), 'sql'))
 def order_make():
     context = {
         "db_config": current_app.config['db_config'],
-        "action": request.method
+        "action": request.method,
+        "error": None
     }
 
     if request.method == 'GET':
-        dates = model_route(sql_provider=provider, context=context)
+        dates = model_route(sql_provider=provider, context=context, request=request)
         return render_template('make_order_form.html', min_date=dates['min_date'], max_date=dates['max_date'],
                                time_options=dates['time_options'], booked_dates=dates['booked_dates'],
-                               error=dates['error'])
+                               error=context['error'])
     elif request.method == 'POST':
-        context['selected_date'] = request.form.get('date')
-        context['hall_id'] = request.form.get('place_amount')
-        context['selected_time'] = request.form.get('time')
-        context['client_phone'] = request.form.get('phone')
-
-        dates = model_route(sql_provider=provider, context=context)
-        if dates['error'] is None:
+        dates = model_route(sql_provider=provider, context=context, request=request)
+        if context['error'] is None:
             return redirect(url_for('menu_choice'))
         else:
             return render_template('make_order_form.html', min_date=dates['min_date'], max_date=dates['max_date'],
                                    time_options=dates['time_options'], booked_dates=dates['booked_dates'],
-                                   error=dates['error'])
+                                   error=context['error'])

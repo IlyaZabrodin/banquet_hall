@@ -2,7 +2,7 @@ from database.operations import select
 from database.connection import DBContextManager
 
 
-def model_route(sql_provider, context: dict):
+def model_route(sql_provider, context: dict, request):
 
     if context['action'] == 'GET':
         _sql = sql_provider.get('search_managers.sql', dict(order_date=context["order_time"]))
@@ -13,6 +13,9 @@ def model_route(sql_provider, context: dict):
         }
         return render_data
     else:
+        context['manager_id'] = request.form.get('manager_id')
+        context['order_id'] = request.form.get('order_id')
+        context['order_status'] = 'Подтвержден'
         _sql = sql_provider.get(
             'set_manager.sql',
             {'manager_id': context['manager_id'],

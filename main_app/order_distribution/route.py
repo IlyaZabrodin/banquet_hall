@@ -27,12 +27,9 @@ def order_distribute():
     }
 
     if request.method == 'GET':
-        render_data = model_route(sql_provider=provider, context=context)
+        render_data = model_route(sql_provider=provider, context=context, request=request)
         return render_template('distribution_form.html', render_data=render_data,
                                phone=context['client_phone'], id=context['order_id'])
     elif request.method == 'POST':
-        context['manager_id'] = request.form.get('manager_id')
-        context['order_id'] = request.form.get('order_id')
-        context['order_status'] = 'Подтвержден'
-        model_route(sql_provider=provider, context=context)
+        model_route(sql_provider=provider, context=context, request=request)
         return redirect(url_for('menu_choice'))

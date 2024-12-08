@@ -26,19 +26,10 @@ def payment_form():
     }
 
     if request.method == 'GET':
-        price, balance = model_route(sql_provider=provider, context=context)
-        message = None
-
-        if price[0]['result'] > balance[0]['user_balance']:
-            message = "Недостаточно средств. Пополните баланс."
-        session['order_status'] = price[0]['order_status']
-        session["diff"] = balance[0]['user_balance'] - price[0]['result']
-
-        return render_template('payment_form.html', price=price[0]['result'], balance=balance[0]['user_balance'],
-                               order_id=context['order_id'], message=message)
+        price, balance, order_id, message = model_route(sql_provider=provider, context=context)
+        return render_template('payment_form.html', price=price, balance=balance,
+                               order_id=order_id, message=message)
 
     elif request.method == 'POST':
-        context["order_status"] = session.get('order_status')
-        context["diff"] = session.get('diff')
         model_route(sql_provider=provider, context=context)
         return redirect(url_for('menu_choice'))
