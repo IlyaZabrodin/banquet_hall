@@ -4,4 +4,4 @@ SELECT
 FROM client_order
 WHERE 1=1
     AND idhall='$hall_id'
-    AND DATE(banquet_time) >= '$tomorrow_date';
+    AND DATE(banquet_time)='$search_date';

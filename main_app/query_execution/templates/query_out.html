@@ -11,16 +11,25 @@
 <table>
     {% if status_code == 1 %}
         {% if query_code == 1 %}
+            <h2>Информация по залу № {{ obj }}</h2>
             <tr class="title">
-                <td>Номер зала</td>
                 <td>Зарезервированное время</td>
                 <td>Ожидаемое количество человек</td>
             </tr>
-            {% elif query_code == 2 %}
+        {% elif query_code == 2 %}
+            <h2>Информация по официанту c id: {{ obj }}</h2>
             <tr class="title">
-                <td>Номер зала</td>
-                <td>Стоимость заказа</td>
+                <td>Номер заказа</td>
                 <td>Зарезервированное время</td>
+                <td>Номер зала</td>
+                <td>Статус заказа</td>
+                <td>Телефон клиента</td>
+            </tr>
+        {% elif query_code == 3 %}
+            <h2>Информация по залу № {{ obj }}</h2>
+            <tr class="title">
+                <td>Зарезервированное время</td>
+                <td>Ожидаемое количество человек</td>
             </tr>
         {% endif %}
     {% elif status_code == 2 %}
@@ -41,17 +50,27 @@
 {% else %}
 {% if empty_code == 1%}
     <div class="error-message" style="color: red;">
-        <h3>Номер зала не введен. Пустой запрос.</h3>
+        <h3>Вы не указали данные</h3>
     </div>
 {% else %}
-<h1>Данных не найдено.</h1>
+{% if query_code == 1 %}
+    <h1>Данный зал не предстоящий месяц свободен</h1>
+{% elif query_code == 2 %}
+    <h1>У данного менеджера нет предстоящих заказов</h1>
+{% elif query_code == 3 %}
+    <h1>На эту дату данный зал свободен</h1>
+{% endif %}
 {% endif %}
 {% endif %}
 
 {% if status_code == 1 %}
-{% if query_code in [1, 2] %}
+{% if query_code in [1, 3] %}
 <table>
     <br><a class="btn btn-success" href="{{ url_for('bp_query.form_render', query_code=query_code) }}">Посмотреть другой зал</a><br><br>
+</table>
+{% else %}
+<table>
+    <br><a class="btn btn-success" href="{{ url_for('bp_query.form_render', query_code=query_code) }}">Посмотреть другого сотрудника</a><br><br>
 </table>
 {% endif %}
 {% endif %}

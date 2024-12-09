@@ -1,0 +1,47 @@
+{% extends 'query_base.html' %}
+
+{% block query_form_for_admin %}
+<form action="" method="post">
+    <!--<input type="text" name="product-name">
+    <input type="submit" value="Send">-->
+    {% if query_code == 1 %}
+        <h3>Посмотреть загруженность залов на предстоящий месяц</h3>
+        <label for="hall_choice">Номер зала:</label>
+        <select name="hall_choice">
+            <option disabled selected>-- Выберите зал --</option>
+            {% for item in render_data %}
+                <option value="{{ loop.index0 + 1 }}">{{ item }}</option>
+            {% endfor %}
+        </select>
+    {% elif query_code == 2 %}
+        <h3>Посмотреть заказы официанта</h3>
+        <label for="manager_choice">Официант:</label>
+        <select name="manager_choice">
+            <option disabled selected>-- Выберите официанта --</option>
+            {% for item in render_data %}
+                <option value="{{ indexes[loop.index0] }}">{{ item }}</option>
+            {% endfor %}
+        </select>
+    {% elif query_code == 3 %}
+        <h3>Проверить свободен ли зал в конкретную дату</h3>
+        <label for="hall_choice">Номер зала:</label>
+        <select name="hall_choice">
+            <option disabled selected>-- Выберите зал --</option>
+            {% for item in render_data %}
+                <option value="{{ loop.index0 + 1 }}">{{ item }}</option>
+            {% endfor %}
+        </select>
+        <div class="form-group">
+            <label for="date">Выберите дату:</label>
+            <input
+                type="date"
+                id="date"
+                name="date"
+                min="{{ min_date }}"
+                max="{{ max_date }}"
+                required>
+        </div>
+    {% endif %}
+    <input type="submit" value="Показать"><br><br>
+</form>
+{% endblock %}

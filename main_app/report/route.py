@@ -24,10 +24,5 @@ def start_report():
 @blueprint_report.route('/', methods=['POST'])
 @login_required(['director', 'hall_admin'])
 def report_handler_result():
-    context = {
-        "year": session['current_year'],
-        "u_group": session.get('user_group'),
-    }
     info = model_route(db_config=current_app.config['db_config'], sql_provider=provider, request=request)
-
     return render_template(f"product_report.html", context=info)

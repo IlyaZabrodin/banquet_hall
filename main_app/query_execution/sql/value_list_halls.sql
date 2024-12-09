@@ -1,0 +1,2 @@
+SELECT idhall
+FROM hall;
