@@ -1,38 +1,33 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link rel="stylesheet"
-          href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
-          integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
-          crossorigin="anonymous">
-    <title>Authentication</title>
-    <link href="/static/main.css" type="text/css" rel="stylesheet">
-</head>
-<body>
-    <h1 align="center">Авторизация</h1>
+{% extends "base.html" %}
+
+{% block breadcrumbs %}
+    <li class="breadcrumb-item active">Авторизация</li>
+{% endblock %}
+{% block base_auth %}
+    <h1 align="center">Авторизация</h1><br>
 
     {% if message %}
-        <p align="center" style="color: red;">{{ message }}</p>
+        <p align="center" style="color: red;">{{ message }}</p><br>
     {% endif %}
 
-    <h1 align="center"> Введите логин и пароль</h1> <br><br>
+    <h3 align="center"> Введите логин и пароль</h3> <br>
     <div align="center">
       <form method="POST" action="">
           <div>
               <label for="login"> Логин</label>
-              <input type="text" id="login" name="login"><br><br>
+              <input type="text" class="form-control-custom" id="login" name="login"><br><br>
 
               <label for="password"> Пароль </label>
-              <input type="password" name="password" id="password"><br><br>
+              <input type="password" class="form-control-custom" name="password" id="password"><br><br>
 
-              <label for="is_internal">Сотрудник</label>
-              <input type="checkbox" name="is_internal" id="is_internal"><br><br>
+              <label class="checkbox-custom" for="is_internal">
+                  Сотрудник
+                <input type="checkbox" name="is_internal" id="is_internal">
+                <span class="checkmark"></span>
+              </label><br><br>
 
-              <input type="submit" class="submit" value="Отправить">
+              <button type="submit" class="btn-custom btn-primary-custom">Отправить</button>
           </div>
       </form>
     </div>
-</body>
-</html>
+{% endblock %}

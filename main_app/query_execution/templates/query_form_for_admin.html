@@ -7,7 +7,7 @@
     {% if query_code == 1 %}
         <h3>Посмотреть загруженность залов на предстоящий месяц</h3>
         <label for="hall_choice">Номер зала:</label>
-        <select name="hall_choice">
+        <select class="select-custom" name="hall_choice">
             <option disabled selected>-- Выберите зал --</option>
             {% for item in render_data %}
                 <option value="{{ loop.index0 + 1 }}">{{ item }}</option>
@@ -16,7 +16,7 @@
     {% elif query_code == 2 %}
         <h3>Посмотреть заказы официанта</h3>
         <label for="manager_choice">Официант:</label>
-        <select name="manager_choice">
+        <select class="select-custom" name="manager_choice">
             <option disabled selected>-- Выберите официанта --</option>
             {% for item in render_data %}
                 <option value="{{ indexes[loop.index0] }}">{{ item }}</option>
@@ -25,12 +25,12 @@
     {% elif query_code == 3 %}
         <h3>Проверить свободен ли зал в конкретную дату</h3>
         <label for="hall_choice">Номер зала:</label>
-        <select name="hall_choice">
+        <select class="select-custom" name="hall_choice">
             <option disabled selected>-- Выберите зал --</option>
             {% for item in render_data %}
                 <option value="{{ loop.index0 + 1 }}">{{ item }}</option>
             {% endfor %}
-        </select>
+        </select><br><br>
         <div class="form-group">
             <label for="date">Выберите дату:</label>
             <input
@@ -40,8 +40,8 @@
                 min="{{ min_date }}"
                 max="{{ max_date }}"
                 required>
-        </div>
+        </div><br><br>
     {% endif %}
-    <input type="submit" value="Показать"><br><br>
+    <button type="submit" class="btn-custom btn-primary-custom">Показать</button><br><br>
 </form>
 {% endblock %}

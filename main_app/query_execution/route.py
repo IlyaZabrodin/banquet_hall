@@ -38,15 +38,12 @@ def form_render():
                 status_code=st_code
             )
     elif request.method == 'POST':
-        print(1)
         render_data, empty_code = model_route(provider, current_app.config['db_config'], request)
-        print(render_data, empty_code)
         if request.args.get('query_code', default=None, type=int) == 2:
             obj = session['manager_choice']
         else:
             obj = session['hall_choice']
 
-        print(empty_code)
         return render_template(
             'query_out.html',
             render_data=render_data,

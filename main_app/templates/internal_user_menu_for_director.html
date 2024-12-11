@@ -1,8 +1,12 @@
 {% extends 'base.html' %}
 
+{% block nav_items %}
+    <li class="nav-item">
+        <a class="nav-link" href="{{ url_for('bp_report.start_report') }}">Просмотр отчетов</a>
+    </li>
+{% endblock %}
 {% block internal_user_menu_for_director %}
 <p align="center">
-    <a class="btn btn-success" href="{{ url_for('bp_report.start_report') }}">Работа с отчетами</a><br><br>
-    <a class="btn btn-primary" href="/exit">Выйти из системы</a>
+    <a class="btn-custom btn-success-custom" href="{{ url_for('bp_report.start_report') }}">Просмотр отчетов</a><br><br>
 </p>
 {% endblock %}

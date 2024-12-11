@@ -1,23 +1,82 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link rel="stylesheet"
-          href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
-          integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
-          crossorigin="anonymous">
-    <title>Base_menu</title>
-    <link href="/static/main.css" rel="stylesheet" type="text/css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}BANQUET HALL{% endblock %}</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='main_style.css') }}">
+    {% block extra_css %}{% endblock %}
+    {% block make_order_css %}{% endblock %}
 </head>
 <body>
-    <div>
-        <h1 style="text-align: center;">Главное меню</h1>
-        <h2 align="center"> Вам доступны следующие действия </h2>
-        {% block internal_user_menu_for_manager %}{% endblock %}
-        {% block internal_user_menu_for_director %}{% endblock %}
-        {% block internal_user_menu_for_hall_admin %}{% endblock %}
-        {% block external_user_menu %}{% endblock %}
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
+        <div class="container">
+            <a class="navbar-brand" href="/">Банкетный зал</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    {% block nav_items %}
+                    <!-- Тут каждый шаблон может добавить свои ссылки -->
+                    {% endblock %}
+                </ul>
+                <div class="navbar-nav">
+                    {% if user_id %}
+                        <a class="nav-link" href="/">user{{ user_id }}</a>
+                        <a class="nav-link" href="/exit">Выйти</a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-3">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="/">Домой</a></li>
+                {% block breadcrumbs %}
+                <!-- Тут каждый шаблон может добавить свои крошки -->
+                {% endblock %}
+            </ol>
+        </nav>
     </div>
+
+    <main class="container mt-4">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category }} alert-dismissible fade show">
+                        {{ message }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        {% block internal_user_menu_for_director %}{% endblock %}
+        {% block content %}{% endblock %}
+        {% block exit %}{% endblock %}
+        {% block base_report %}{% endblock %}
+        {% block base_query %}{% endblock %}
+        {% block base_distribute %}{% endblock %}
+        {% block base_auth %}{% endblock %}
+        {% block base_pay %}{% endblock %}
+        {% block base_order %}{% endblock %}
+        {% block base_basket %}{% endblock %}
+    </main>
+
+    <footer class="bg-dark text-light mt-5 py-3">
+        <div class="container">
+            {% block footer %}
+            <p class="text-center mb-0">© {{ cur_date }} {{ site_name }}</p>
+            {% endblock %}
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    {% block extra_js %}{% endblock %}
 </body>
 </html>

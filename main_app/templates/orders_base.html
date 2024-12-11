@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div>
+    {% block internal_user_menu_for_manager %}{% endblock %}
+    {% block internal_user_menu_for_hall_admin %}{% endblock %}
+    {% block external_user_menu %}{% endblock %}
+</div>
+{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+<link rel="stylesheet" href="{{ url_for('static', filename='orders.css') }}">
+{% endblock %}

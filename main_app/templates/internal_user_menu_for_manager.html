@@ -1,57 +1,72 @@
-{% extends 'base.html' %}
+{% extends 'orders_base.html' %}
 
+{% block nav_items %}
+    <li class="nav-item">
+        <a class="nav-link" href="{{ url_for('bp_query.form_render') }}">Посмотреть меню ресторана</a>
+    </li>
+{% endblock %}
 {% block internal_user_menu_for_manager %}
-<p align="center">
-    <a class="btn btn-success" href="{{ url_for('bp_query.form_render') }}">Посмотреть меню ресторана</a><br><br>
-    <a class="btn btn-primary" href="/exit">Выйти из системы</a>
-</p>
-<div>
-    <h2>Заказы зарезервированные на вас:</h2>
+<div class="orders-container">
+    <h2 class="mb-4">Заказы зарезервированные на вас 🔥</h2>
     {% if render_data['status'] %}
-        <table border="1">
-            <thead>
-                <tr>
-                    <th>Номер заказа</th>
-                    <th>Зарезервированное время</th>
-                    <th>Ожидаемое число человек</th>
-                    <th>Номер зала</th>
-                    <th>Аванс</th>
-                    <th>Количество блюд</th>
-                    <th>Реальная стоимость</th>
-                    <th>Статус заказа</th>
-                    <th>Телефон клиента</th>
-                    <th>ID клиента</th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for ord_id, time, place_amount, hall, prepaid_exp, dish_am, cost, status, phone, user in render_data['data'] %}
-                    <tr>
-                        <td>{{ ord_id }}</td>
-                        <td>{{ time }}</td>
-                        <td>{{ place_amount }}</td>
-                        <td>{{ hall }}</td>
-                        <td>{{ prepaid_exp }}</td>
-                        <td>{{ dish_am }}</td>
-                        <td>{{ cost }}</td>
-                        <td>{{ status }}</td>
-                        <td>{{ phone }}</td>
-                        <td>{{ user }}</td>
-                        {% if status == 'Полностью оформлен' %}
-                        <td>
-                            <a class="btn btn-primary" href="{{ url_for('bp_dish_list.basket_index', order_id=ord_id) }}">Обработать стоимость</a><br>
-                            <a class="btn btn-primary" href="{{ url_for('bp_query.form_render', order_id=ord_id) }}">Посмотреть заказ</a>
-                        </td>
-                        {% endif %}
-                        <td><form action="{{ url_for('cancel_order_handler', order_id=id) }}" method="post">
-                            <button class="btn btn-danger" type="submit">Отменить заказ</button>
-                        </form></td>
-                    </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+    <table class="orders-table">
+        <thead>
+            <tr>
+                <th>Номер заказа</th>
+                <th>Время банкета</th>
+                <th>Ожидаемое число человек</th>
+                <th>Номер зала</th>
+                <th>Аванс</th>
+                <th>Количество блюд</th>
+                <th>Реальная стоимость</th>
+                <th>Статус заказа</th>
+                <th>Телефон клиента</th>
+                <th>ID клиента</th>
+                <th></th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for ord_id, time, place_amount, hall, prepaid_exp, dish_am, cost, status, phone, user in render_data['data'] %}
+            <tr class="{% if status != 'Завершен' %}new-order{% endif %}">
+                <td><span class="order-number">#{{ ord_id }}</span></td>
+                <td>{{ time }}</td>
+                <td>{{ place_amount }}</td>
+                <td>{{ hall }}</td>
+                <td>{{ prepaid_exp }}</td>
+                <td>{{ dish_am }}</td>
+                <td>{{ cost }}</td>
+                <td>
+                    {% set status_classes = {
+                        'В обработке': 'status-processing',
+                        'Ждет оплаты': 'status-waiting-payment',
+                        'Отменен': 'status-cancelled',
+                        'Подтвержден': 'status-confirmed',
+                        'Полностью оформлен': 'status-pending',
+                        'Завершен': 'status-completed'
+                    } %}
+
+                    <span class="status {{ status_classes[status] }}">
+                        {{ status }}
+                    </span>
+                </td>
+                <td>{{ phone }}</td>
+                <td>{{ user }}</td>
+                {% if status == 'Полностью оформлен' %}
+                <td>
+                    <a class="btn-custom btn-primary-custom" href="{{ url_for('bp_dish_list.basket_index', order_id=ord_id) }}">Обработать стоимость</a><br><br>
+                    <a class="btn-custom btn-warning-custom" href="{{ url_for('bp_query.form_render', order_id=ord_id) }}">Посмотреть заказ</a>
+                </td>
+                {% endif %}
+                <td><form action="{{ url_for('cancel_order_handler', order_id=id) }}" method="post">
+                    <button class="btn-custom btn-danger-custom" type="submit">Отменить заказ</button>
+                </form></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
     {% else %}
-        <p style="color: black;">На данный момент на вас не найдено заказов.</p>
+        <p class="status-message">На данный момент на вас не найдено заказов.</p>
     {% endif %}
 </div>
 {% endblock %}

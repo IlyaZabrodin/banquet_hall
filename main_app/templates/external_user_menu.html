@@ -1,63 +1,82 @@
-{% extends 'base.html' %}
+{% extends 'orders_base.html' %}
 
+{% block nav_items %}
+    <li class="nav-item">
+        <a class="nav-link" href="{{ url_for('bp_order_make.order_make') }}">Оформить новый заказ</a>
+        <a class="nav-link" href="{{ url_for('bp_query.form_render') }}">Посмотреть меню ресторана</a>
+    </li>
+{% endblock %}
 {% block external_user_menu %}
-<p align="center">
-    <a class="btn btn-success" href="{{ url_for('bp_order_make.order_make') }}">Оформить новый заказ</a><br><br>
-    <a class="btn btn-success" href="{{ url_for('bp_query.form_render') }}">Посмотреть меню ресторана</a><br><br>
-    <a class="btn btn-primary" href="/exit">Выйти из системы</a>
-</p>
-<div>
-    <h2>Мои заказы:</h2>
+<div class="orders-container">
+    <h2 class="mb-4">Мои заказы 🔥</h2>
     {% if render_data['status'] %}
-        <table border="1">
-            <thead>
-                <tr>
-                    <th>Номер заказа</th>
-                    <th>Статус заказа</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for id, status in render_data['data'] %}
-                    <tr>
-                        <td>{{ id }}</td>
-                        <td>
-                            {% if status == 'В обработке' %}
-                                <span style="color: orange;">{{ status }}</span>
-                                <th>Ожидайте подтверждения заказа. Скоро с вами свяжется сотрудник.</th>
-                            {% elif status == 'Подтвержден' %}
-                                <span style="color: blue;">{{ status }}</span>
-                                <th>Теперь вы можете предварительно выбрать блюда для вашего банкета:
-                                Напоминаем, отмена заказа после внесения аванса возможна только за 2 дня,
-                                для этого необходимо связаться с нашими сотрудниками.</th>
-                            {% elif status == 'Полностью оформлен' %}
-                                <span style="color: green;">{{ status }}</span>
-                                <th>Ждем вас в указанную вами дату!</th>
-                            {% elif status == 'Ждет оплаты' %}
-                                <span style="color: orange;">{{ status }}</span>
-                                <th>Оплатите позиции, заказанные вами на месте, чья стоимость не входила в аванс.</th>
-                            {% elif status == 'Завершен' %}
-                                <span style="color: green;">{{ status }}</span>
-                                <th>Спасибо, что выбрали нас!</th>
-                            {% else %}
-                                <span style="color: gray;">{{ status }}</span>
-                            {% endif %}
-                            {% if status == 'Подтвержден' %}
-                                <td><a class="btn btn-success" href="{{ url_for('bp_dish_list.basket_index', order_id=id) }}">Выбрать блюда</a><br>
-                                     <form action="{{ url_for('cancel_order_handler', order_id=id) }}" method="post">
-                                        <button class="btn btn-danger" type="submit">Отменить заказ</button>
-                                    </form>
-                                </td>
-                            {% elif status == 'Ждет оплаты' %}
-                                <td><a class="btn btn-success" href="{{ url_for('bp_payment.payment_form', order_id=id) }}">К оплате</a><br>
-                                    <a class="btn btn-primary" href="{{ url_for('bp_query.form_render', order_id=id) }}">Посмотреть общий счет</a></td>
-                            {% endif %}
-                        </td>
-                    </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+    <table class="orders-table user">
+        <thead>
+            <tr>
+                <th>Номер заказа</th>
+                <th>Статус заказа</th>
+                <th></th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for id, status, time in render_data['data'] %}
+            <tr class="{% if status != 'Завершен' %}new-order{% endif %}">
+                <td><span class="order-number">#{{ id }}</span></td>
+                <td>
+                    {% set status_info = {
+                        'В обработке': {
+                            'class': 'status-processing',
+                            'message': 'Ожидайте подтверждения заказа. Скоро с вами свяжется сотрудник.'
+                        },
+                        'Подтвержден': {
+                            'class': 'status-confirmed',
+                            'message': 'Теперь вы можете предварительно выбрать блюда для вашего банкета. Напоминаем, отмена заказа после внесения аванса возможна только за 2 дня, для этого необходимо связаться с нашими сотрудниками.'
+                        },
+                        'Полностью оформлен': {
+                            'class': 'status-pending',
+                            'message': 'Ждем вас в указанную вами дату!'
+                        },
+                        'Ждет оплаты': {
+                            'class': 'status-waiting-payment',
+                            'message': 'Оплатите позиции, заказанные вами на месте, чья стоимость не входила в аванс.'
+                        },
+                        'Завершен': {
+                            'class': 'status-completed',
+                            'message': 'Спасибо, что выбрали нас!'
+                        },
+                        'Отменен': {
+                            'class': 'status-cancelled',
+                            'message': 'Заказ отменен.'
+                        }
+                    } %}
+                    <span class="status {{ status_info[status]['class'] }}">
+                        {{ status }}
+                    </span>
+                </td>
+                <td>
+                    <span class="status-message">
+                        {{ status_info[status]['message'] }}
+                    </span>
+                </td>
+                {% if status == 'Подтвержден' %}
+                    <td><a class="btn-custom btn-success-custom" href="{{ url_for('bp_dish_list.basket_index', order_id=id) }}">Выбрать блюда</a><br><br>
+                         <form action="{{ url_for('cancel_order_handler', order_id=id) }}" method="post">
+                            <button class="btn-custom btn-danger-custom" type="submit">Отменить заказ</button>
+                        </form>
+                    </td>
+                {% elif status == 'Ждет оплаты' %}
+                    <td><a type="submit" class="btn-custom btn-success-custom" href="{{ url_for('bp_payment.payment_form', order_id=id) }}">К оплате</a><br><br>
+                        <a class="btn-custom btn-success-primary" href="{{ url_for('bp_query.form_render', order_id=id) }}">Посмотреть общий счет</a></td>
+                {% elif status == 'Полностью оформлен' %}
+                    <td>{{ time }}</td>
+                {% endif %}
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
     {% else %}
-        <p style="color: black;">Заказов пока что нет.</p>
+        <p class="status-message">Заказов пока что нет.</p>
     {% endif %}
 </div>
 {% endblock %}

@@ -14,7 +14,6 @@ def save_in_session_and_redirect(user_dict):
     session['user_id'] = user_dict['user_id']
     session['user_group'] = user_dict['user_group']
     session.permanent = True
-    print(1)
     return redirect(url_for('menu_choice'))
 
 
@@ -22,7 +21,6 @@ def model_route(db_config: dict, sql_provider, request):
     login = request.form.get('login', '')
     password = request.form.get('password', '')
     is_internal = True if request.form.get('is_internal') == 'on' else False
-    print(login, password)
 
     if not is_internal:
         # make external API call

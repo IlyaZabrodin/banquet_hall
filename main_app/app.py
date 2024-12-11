@@ -2,6 +2,7 @@ import json
 from pathlib import Path
 from flask import Flask, render_template, request, session, redirect, url_for, current_app
 from pymysql.err import OperationalError
+from datetime import datetime
 
 from authorisation.route import auth_blueprint
 from query_execution.route import query_blueprint
@@ -28,6 +29,20 @@ app.secret_key = 'SuperKey'
 project_path = Path(__file__).resolve().parent
 app.config['db_config'] = json.load(open(project_path / 'configs/db.json'))
 app.config['cache_config'] = json.load(open(project_path / 'configs/cache.json'))
+
+
+@app.context_processor
+def inject_global_vars():
+    blueprint = request.blueprint
+    context = {
+        'cur_date': datetime.now().date(),
+        'site_name': 'Banquet Hall System'
+    }
+    if blueprint not in ['auth_blueprint']:
+        if 'user_id' in session:
+            context['user_id'] = session['user_id']
+
+    return context
 
 
 @app.route('/')

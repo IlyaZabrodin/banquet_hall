@@ -3,13 +3,16 @@
 {% block order_out %}
 
 {% if render_data %}
-<table>
+<table class="orders-table">
+    <thead>
     <tr class="title">
         <td>Позиция</td>
         <td>Количество</td>
         <td>Стоимость за 1 (рубли)</td>
         <td>Общая стоимость (рубли)</td>
     </tr>
+    </thead>
+    <tbody>
     {% set ns = namespace(sum_column=0) %}
     {% for line in render_data %}
         <tr>
@@ -21,6 +24,7 @@
             {% endfor %}
         </tr>
     {% endfor %}
+    </tbody>
 </table>
 <p>Общая сумма банкета (рубли): {{ ns.sum_column }}</p>
 {% else %}

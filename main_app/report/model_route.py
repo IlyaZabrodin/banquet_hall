@@ -27,7 +27,7 @@ def model_route(db_config: dict, sql_provider, request) -> InfoResponse:
 
     id_rep = 1 if context["rep_id"] == '2' else 0
     if context['action'] == 'create':
-        return_code = call_procedure(context['db_config'], context['proc_name'], id_rep,
+        return_code = call_procedure(db_config, context['proc_name'], id_rep,
                                      int(context['month']), int(context['year']))
 
         if return_code == 1:

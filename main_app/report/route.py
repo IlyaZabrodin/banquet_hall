@@ -18,7 +18,7 @@ def start_report():
         "year": session['current_year'],
         "u_group": session.get('user_group')
     }
-    return render_template("main.html", context=context)
+    return render_template("report_form.html", context=context)
 
 
 @blueprint_report.route('/', methods=['POST'])

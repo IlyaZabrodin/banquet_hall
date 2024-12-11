@@ -1,13 +1,11 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{{url_for('static', filename='style.css')}}">
-    <title>Reports</title>
-</head>
-<center>
-<body>
+{% extends "base_report.html" %}
+
+{% block nav_items %}
+    <li class="nav-item">
+        <a class="nav-link" href="{{url_for('bp_report.start_report')}}">Вернуться к отчётам</a>
+    </li>
+{% endblock %}
+{% block product_report %}
     {% if context.error_message %}
         {{ context.error_message }}
     {% else %}
@@ -29,22 +27,25 @@
             <h2>{{title}}</h2>
             {% if context.result %}
             <div>
-                <table border="1">
+                <table class="orders-table">
+                    <thead>
                     {% if context.id_rep == 1 %}
                         <tr class="title">
-                            <td>Строка общей отчетности</td>
-                            <td>ID официанта</td>
-                            <td>Количество заказов</td>
-                            <td>Общая прибыль заказов</td>
+                            <th>Строка общей отчетности</th>
+                            <th>ID официанта</th>
+                            <th>Количество заказов</th>
+                            <th>Общая прибыль заказов</th>
                         </tr>
                     {% else %}
                         <tr class="title">
-                            <td>Строка общей отчетности</td>
-                            <td>ID зала</td>
-                            <td>Количество заказов</td>
-                            <td>Общая прибыль заказов</td>
+                            <th>Строка общей отчетности</th>
+                            <th>ID зала</th>
+                            <th>Количество заказов</th>
+                            <th>Общая прибыль заказов</th>
                         </tr>
                     {% endif %}
+                    </thead>
+                    <tbody>
                     {% for item in context.result %}
                     <tr>
                         <td>{{item[0]}}</td>
@@ -53,27 +54,13 @@
                         <td>{{item[5]}}</td>
                     </tr>
                     {% endfor %}
+                    </tbody>
                 </table>
             </div>
             {% else %}
                 {{ context.error_message }}
             {% endif %}
-    {% endif %}
-
-            <br><br><br>
-            <form action="{{url_for('bp_report.start_report')}}" method="GET">
-                <button type="submit">Вернуться к отчётам</button>
-            </form>
-            <br>
-            <form action="{{url_for('menu_choice')}}" method="GET">
-                <button type="submit">Вернуться в меню</button>
-            </form>
-            <br>
-            <form action="{{url_for('logout_handler')}}" method="GET">
-                <input type="submit" value="Выйти из системы"/>
-            </form>
         </main>
     </div>
-</body>
-</center>
-</html>
+    {% endif %}
+{% endblock %}

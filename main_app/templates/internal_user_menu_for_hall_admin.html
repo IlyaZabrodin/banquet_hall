@@ -1,46 +1,47 @@
-{% extends 'base.html' %}
+{% extends 'orders_base.html' %}
 
+{% block nav_items %}
+    <li class="nav-item">
+        <a class="nav-link" href="{{ url_for('bp_report.start_report') }}">Работа с отчетами</a>
+        <a class="nav-link" href="{{ url_for('bp_query.form_render', query_code=1) }}">Посмотреть загруженность залов</a>
+        <a class="nav-link" href="{{ url_for('bp_query.form_render', query_code=2) }}">Посмотреть заказы официанта</a>
+        <a class="nav-link" href="{{ url_for('bp_query.form_render', query_code=3) }}">Проверить зал</a>
+    </li>
+{% endblock %}
 {% block internal_user_menu_for_hall_admin %}
-<p align="center">
-    <a class="btn btn-primary" href="{{ url_for('bp_report.start_report') }}">Работа с отчетами</a><br><br>
-    <a class="btn btn-success" href="{{ url_for('bp_query.form_render', query_code=1) }}">Посмотреть загруженность залов</a><br><br>
-    <a class="btn btn-success" href="{{ url_for('bp_query.form_render', query_code=2) }}">Посмотреть заказы официанта</a><br><br>
-    <a class="btn btn-success" href="{{ url_for('bp_query.form_render', query_code=3) }}">Проверить зал</a><br><br>
-    <a class="btn btn-primary" href="/exit">Выйти из системы</a>
-</p>
-<form>
-    <h2>Заказы к обработке:</h2>
+<div class="orders-container">
+    <h2 class="mb-4">Заказы к обработке 🔥</h2>
     {% if render_data['status'] %}
-        <table border="1">
-            <thead>
-                <tr>
-                    <th>Номер заказа</th>
-                    <th>Зарезервированное время</th>
-                    <th>Ожидаемое число человек</th>
-                    <th>Номер зала</th>
-                    <th>Телефон клиента</th>
-                    <th>ID клиента</th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for ord_id, time, place_amount, hall, phone, user in render_data['data'] %}
-                    <tr>
-                        <td>{{ ord_id }}</td>
-                        <td>{{ time }}</td>
-                        <td>{{ place_amount }}</td>
-                        <td>{{ hall }}</td>
-                        <td>{{ phone }}</td>
-                        <td>{{ user }}</td>
-                        <td>
-                            <a class="btn btn-primary" href="{{ url_for('bp_order_distribute.order_distribute', order_id=ord_id, order_time=time, client_phone=phone) }}">Обработать</a>
-                        </td>
-                    </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+    <table class="orders-table">
+        <thead>
+            <tr>
+                <th>Номер заказа</th>
+                <th>Время банкета</th>
+                <th>Ожидаемое число человек</th>
+                <th>Номер зала</th>
+                <th>Телефон клиента</th>
+                <th>ID клиента</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for ord_id, time, place_amount, hall, phone, user in render_data['data'] %}
+            <tr class="{% if status != 'Завершен' %}new-order{% endif %}">
+                <td><span class="order-number">#{{ ord_id }}</span></td>
+                <td>{{ time }}</td>
+                <td>{{ place_amount }}</td>
+                <td>{{ hall }}</td>
+                <td>{{ phone }}</td>
+                <td>{{ user }}</td>
+                <td>
+                    <a class="btn-custom btn-primary-custom" href="{{ url_for('bp_order_distribute.order_distribute', order_id=ord_id, order_time=time, client_phone=phone) }}">Обработать</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
     {% else %}
-        <p style="color: black;">Необработанных заказов не найдено.</p>
+        <p class="status-message">Необработанных заказов не найдено.</p>
     {% endif %}
-</form>
+</div>
 {% endblock %}

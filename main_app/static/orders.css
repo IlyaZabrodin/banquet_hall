@@ -1,0 +1,125 @@
+.orders-table {
+    width: 100%;
+    table-layout: fixed;
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(0,0,0,0.1);
+    overflow: hidden;
+    margin: 20px 0;
+}
+
+.orders-table thead {
+    background: #2c3e50;
+    color: white;
+    width: 100%;
+}
+
+.orders-table th {
+    width: 100%;
+    padding: 15px;
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 14px;
+    letter-spacing: 0.5px;
+}
+
+.orders-table td {
+    padding: 12px 15px;
+    border-bottom: 1px solid #eee;
+}
+
+.orders-table tbody tr:hover {
+    background: #f8f9fa;
+    transform: scale(1.01);
+    transition: all 0.2s ease;
+}
+
+.orders-table.user th:nth-child(1) { width: 10%; }
+.orders-table.user th:nth-child(2) { width: 20%; }
+.orders-table.user th:nth-child(3) { width: 50%; }
+.orders-table.user th:nth-child(4) { width: 20%; }
+
+/* Статусы заказов */
+.status {
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-weight: 500;
+    font-size: 14px;
+    display: inline-block;
+}
+
+.status-completed {
+    background: #e8f5e9;
+    color: #2e7d32;
+}
+
+.status-pending {
+    background: #fff3e0;
+    color: #ef6c00;
+}
+
+.status-processing {
+    background: #e3f2fd;
+    color: #1565c0;
+}
+
+.status-waiting-payment {
+    background: #fff8e1;
+    color: #ffa000;
+}
+
+.status-cancelled {
+    background: #ffebee;
+    color: #c62828;
+}
+
+.status-confirmed {
+    background: #e8f5e9;
+    color: #2e7d32;
+}
+
+/* Добавим иконки для статусов */
+.status::before {
+    margin-right: 5px;
+    font-family: "Font Awesome 5 Free";
+    font-weight: 900;
+}
+
+.status-processing::before {
+    content: "\f110"; /* крутящийся значок */
+}
+
+.status-waiting-payment::before {
+    content: "\f3d1"; /* значок */
+}
+
+.status-cancelled::before {
+    content: "\f00d"; /* крестик */
+}
+
+.status-confirmed::before {
+    content: "\f00c"; /* галочка */
+}
+
+/* Анимация для новых заказов */
+@keyframes newOrder {
+    0% { background-color: #fff3cd; }
+    100% { background-color: transparent; }
+}
+
+.new-order {
+    animation: newOrder 2s ease-out;
+}
+
+/* Номер заказа */
+.order-number {
+    font-weight: bold;
+    color: #2c3e50;
+    font-size: 16px;
+}
+
+/* Сообщение статуса */
+.status-message {
+    font-size: 14px;
+    margin-left: 10px;
+}

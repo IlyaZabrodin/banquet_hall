@@ -3,7 +3,7 @@
 {% block distribution_form %}
   <h3>Связаться с клиентом: {{ phone }}</h3>
   {% if render_data.status %}
-    <table>
+    <table class="orders-table">
       <thead>
         <tr>
           <th>Имя менеджера</th>
@@ -18,7 +18,7 @@
             <form method="POST" action="{{ url_for('bp_order_distribute.order_distribute') }}">
               <input type="hidden" name="manager_id" value="{{ manager_id }}">
               <input type="hidden" name="order_id" value="{{ id }}">
-              <button type="submit" class="btn btn-primary">Выбрать</button>
+              <button type="submit" class="btn-custom btn-primary-custom">Выбрать</button>
             </form>
           </td>
         </tr>
