@@ -39,6 +39,18 @@
 .orders-table.user th:nth-child(3) { width: 50%; }
 .orders-table.user th:nth-child(4) { width: 20%; }
 
+.orders-table.manager th:nth-child(1) { width: 25%; }
+.orders-table.manager th:nth-child(2) { width: 35%; }
+.orders-table.manager th:nth-child(3) { width: 40%; }
+.orders-table.manager th:nth-child(4) { width: 22%; }
+.orders-table.manager th:nth-child(5) { width: 25%; }
+.orders-table.manager th:nth-child(6) { width: 40%; }
+.orders-table.manager th:nth-child(7) { width: 35%; }
+.orders-table.manager th:nth-child(8) { width: 45%; }
+.orders-table.manager th:nth-child(9) { width: 45%; }
+.orders-table.manager th:nth-child(10) { width: 23%; }
+.orders-table.manager th:nth-child(11) { width: 90%; }
+
 /* Статусы заказов */
 .status {
     padding: 6px 12px;

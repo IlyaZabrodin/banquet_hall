@@ -2,12 +2,12 @@
 
 {% block make_order_form %}
 <div class="form-container">
-    <h2>Выбор даты</h2>
+    <h2>Выбор даты</h2><br>
 
     {% if error %}
-        <div class="error-message" style="color: red;">
+        <div class="error-message">
             {{ error }}
-        </div>
+        </div><br>
     {% endif %}
 
     <form action="{{ url_for('bp_order_make.order_make') }}" method="POST">

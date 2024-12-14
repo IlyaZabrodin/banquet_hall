@@ -20,12 +20,11 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav me-auto">
                     {% block nav_items %}
-                    <!-- Тут каждый шаблон может добавить свои ссылки -->
                     {% endblock %}
                 </ul>
                 <div class="navbar-nav">
                     {% if user_id %}
-                        <a class="nav-link" href="/">user{{ user_id }}</a>
+                        <a class="nav-link" href="/">{{ role }}-user{{ user_id }}</a>
                         <a class="nav-link" href="/exit">Выйти</a>
                     {% endif %}
                 </div>
@@ -38,7 +37,6 @@
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="/">Домой</a></li>
                 {% block breadcrumbs %}
-                <!-- Тут каждый шаблон может добавить свои крошки -->
                 {% endblock %}
             </ol>
         </nav>

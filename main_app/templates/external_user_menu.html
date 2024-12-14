@@ -3,7 +3,14 @@
 {% block nav_items %}
     <li class="nav-item">
         <a class="nav-link" href="{{ url_for('bp_order_make.order_make') }}">Оформить новый заказ</a>
-        <a class="nav-link" href="{{ url_for('bp_query.form_render') }}">Посмотреть меню ресторана</a>
+    </li>
+    <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Работа с запросами
+        </a>
+        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <li><a class="dropdown-item" href="{{ url_for('bp_query.form_render') }}">Посмотреть меню ресторана</a></li>
+        </ul>
     </li>
 {% endblock %}
 {% block external_user_menu %}
@@ -57,26 +64,40 @@
                 <td>
                     <span class="status-message">
                         {{ status_info[status]['message'] }}
+                        {% if status == 'Полностью оформлен' %}
+                            <span> ({{ time }})</span>
+                        {% endif %}
                     </span>
                 </td>
                 {% if status == 'Подтвержден' %}
-                    <td><a class="btn-custom btn-success-custom" href="{{ url_for('bp_dish_list.basket_index', order_id=id) }}">Выбрать блюда</a><br><br>
+                    {% if id in problem_orders %}
+                        <td><a class="btn-custom btn-success-custom" href="{{ url_for('bp_payment.payment_form', order_id=id) }}">Оплатить выбор</a><br><br>
+                         <a class="btn-custom btn-primary-custom" href="{{ url_for('bp_query.form_render', order_id=id) }}">Текущий счет</a><br><br>
                          <form action="{{ url_for('cancel_order_handler', order_id=id) }}" method="post">
                             <button class="btn-custom btn-danger-custom" type="submit">Отменить заказ</button>
                         </form>
-                    </td>
+                        </td>
+                    {% else %}
+                        <td><a class="btn-custom btn-success-custom" href="{{ url_for('bp_dish_list.basket_index', order_id=id) }}">Выбрать блюда</a><br><br>
+                         <form action="{{ url_for('cancel_order_handler', order_id=id) }}" method="post">
+                            <button class="btn-custom btn-danger-custom" type="submit">Отменить заказ</button>
+                        </form>
+                        </td>
+                    {% endif %}
                 {% elif status == 'Ждет оплаты' %}
                     <td><a type="submit" class="btn-custom btn-success-custom" href="{{ url_for('bp_payment.payment_form', order_id=id) }}">К оплате</a><br><br>
-                        <a class="btn-custom btn-success-primary" href="{{ url_for('bp_query.form_render', order_id=id) }}">Посмотреть общий счет</a></td>
+                        <a class="btn-custom btn-primary-custom" href="{{ url_for('bp_query.form_render', order_id=id) }}">Итоговый счет</a></td>
                 {% elif status == 'Полностью оформлен' %}
-                    <td>{{ time }}</td>
+                    <td><a class="btn-custom btn-primary-custom" href="{{ url_for('bp_query.form_render', order_id=id) }}">Текущий счет</a></td>
                 {% endif %}
             </tr>
             {% endfor %}
         </tbody>
     </table>
     {% else %}
-        <p class="status-message">Заказов пока что нет.</p>
+        <div class="info-message">
+            Заказов пока что нет.
+        </div>
     {% endif %}
 </div>
 {% endblock %}

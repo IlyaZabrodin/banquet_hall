@@ -5,28 +5,28 @@
     <!--<input type="text" name="product-name">
     <input type="submit" value="Send">-->
     {% if query_code == 1 %}
-        <h3>Посмотреть загруженность залов на предстоящий месяц</h3>
-        <label for="hall_choice">Номер зала:</label>
+        <h3>Посмотреть загруженность залов на предстоящий месяц</h3><br>
+        <label for="hall_choice">Номер зала:</label><br>
         <select class="select-custom" name="hall_choice">
-            <option disabled selected>-- Выберите зал --</option>
+            <option disabled selected>Выберите зал</option>
             {% for item in render_data %}
                 <option value="{{ loop.index0 + 1 }}">{{ item }}</option>
             {% endfor %}
-        </select>
+        </select><br><br>
     {% elif query_code == 2 %}
-        <h3>Посмотреть заказы официанта</h3>
-        <label for="manager_choice">Официант:</label>
+        <h3>Посмотрите заказы официанта</h3><br>
+        <label for="manager_choice">Официант:</label><br>
         <select class="select-custom" name="manager_choice">
-            <option disabled selected>-- Выберите официанта --</option>
+            <option disabled selected>Выберите официанта</option>
             {% for item in render_data %}
                 <option value="{{ indexes[loop.index0] }}">{{ item }}</option>
             {% endfor %}
-        </select>
+        </select><br><br>
     {% elif query_code == 3 %}
-        <h3>Проверить свободен ли зал в конкретную дату</h3>
-        <label for="hall_choice">Номер зала:</label>
+        <h3>Проверьте свободен ли зал в конкретную дату</h3><br>
+        <label for="hall_choice">Номер зала:</label><br>
         <select class="select-custom" name="hall_choice">
-            <option disabled selected>-- Выберите зал --</option>
+            <option disabled selected>Выберите зал</option>
             {% for item in render_data %}
                 <option value="{{ loop.index0 + 1 }}">{{ item }}</option>
             {% endfor %}

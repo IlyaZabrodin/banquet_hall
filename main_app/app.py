@@ -41,6 +41,7 @@ def inject_global_vars():
     if blueprint not in ['auth_blueprint']:
         if 'user_id' in session:
             context['user_id'] = session['user_id']
+            context['role'] = session['user_group']
 
     return context
 

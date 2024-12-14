@@ -25,4 +25,11 @@ def start_report():
 @login_required(['director', 'hall_admin'])
 def report_handler_result():
     info = model_route(db_config=current_app.config['db_config'], sql_provider=provider, request=request)
+    if info.id_rep == 2:
+        context = {
+            "year": session['current_year'],
+            "u_group": session.get('user_group'),
+            "error_message": info.error_message
+        }
+        return render_template("report_form.html", context=context)
     return render_template(f"product_report.html", context=info)

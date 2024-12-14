@@ -16,6 +16,11 @@ def model_route(db_config: dict, sql_provider, request) -> InfoResponse:
         {'rep_id': '1', 'proc_name': 'schema_1.SaleReport', 'sql': 'sales_report.sql'},
         {'rep_id': '2', 'proc_name': 'schema_1.OrderReport', 'sql': 'workers_report.sql'}
     ]
+    print(1)
+    if not request.form.get('report_choice') or not request.form.get('month_choice'):
+        print(2)
+        return InfoResponse(result=[], id_rep=2, error_message="Все поля должны быть заполнены")
+
     context = {}
     for report in report_list:
         if request.form['report_choice'] == report['rep_id']:

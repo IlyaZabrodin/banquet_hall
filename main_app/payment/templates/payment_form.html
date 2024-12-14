@@ -5,11 +5,11 @@
 {% endblock %}
 {% block base_pay %}
 <form method="POST" action="">
-    <h2>Оплата заказа № {{ order_id }}</h2>
-    <h3>Ваш баланс: {{ balance }}</h3>
-    <h3>К оплате по заказу: {{ price }}</h3>
+    <h2 class="section-title menu-title">Оплата заказа № {{ order_id }}</h2><br>
+    <h3>Ваш баланс: {{ balance }} рублей</h3>
+    <h3>К оплате по заказу: {{ price }} рублей</h3><br>
     {% if message %}
-        <div class="message" style="color: red;">
+        <div class="error-message">
             {{ message }}
         </div>
     {% else %}

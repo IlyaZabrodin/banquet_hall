@@ -89,6 +89,10 @@ body {
     background-repeat: no-repeat;
     background-position: right 15px center;
     background-size: 15px;
+    padding-right: 40px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
 }
 
 /* Стилизация чекбоксов */
@@ -218,4 +222,163 @@ body {
     background: #f8f9fa;
     transform: scale(1.01);
     transition: all 0.2s ease;
+}
+
+/* Стилизация календаря */
+input[type="date"] {
+    position: relative;
+    background: #fff;
+    border: 2px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 10px 15px;
+    cursor: pointer;
+    appearance: none;
+    padding-right: 40px;
+    font-family: inherit; /* Наследование шрифта от родителя */
+}
+
+/* Стилизация иконки календаря */
+input[type="date"]::-webkit-calendar-picker-indicator {
+    position: absolute;
+    right: 15px;
+    width: 15px;
+    height: 15px;
+    cursor: pointer;
+    opacity: 0.6;
+}
+
+/* Стилизация label */
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 500;
+    color: #333;
+}
+
+/* Стилизация при наведении */
+input[type="date"]:hover {
+    border-color: #c0c0c0;
+}
+
+/* Стилизация при фокусе */
+input[type="date"]:focus {
+    outline: none;
+    border-color: #4a90e2;
+    box-shadow: 0 0 0 2px rgba(74, 144, 226, 0.1);
+}
+
+/* Стили для сообщений об ошибках */
+.error-message {
+    color: #dc3545;
+    background-color: #fde8e8;
+    border: 1px solid #fbd5d5;
+    border-radius: 6px;
+    padding: 12px 15px;
+    margin: 10px 0;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    animation: fadeIn 0.3s ease-in;
+}
+
+/* Иконка ошибки */
+.error-message::before {
+    content: '⚠️';
+    margin-right: 10px;
+    font-size: 16px;
+}
+
+/* Анимация появления ошибки */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Стили для сообщений об успехе */
+.success-message {
+    color: #198754;
+    background-color: #e8f5e9;
+    border: 1px solid #c8e6c9;
+    border-radius: 6px;
+    padding: 12px 15px;
+    margin: 10px 0;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    animation: fadeIn 0.3s ease-in;
+}
+
+/* Иконка успеха */
+.success-message::before {
+    content: '✅';
+    margin-right: 10px;
+    font-size: 16px;
+}
+
+/* Стили для сообщений (синие) */
+.info-message {
+    color: #0d6efd;
+    background-color: #e7f1ff;
+    border: 1px solid #cfe2ff;
+    border-radius: 6px;
+    padding: 12px 15px;
+    margin: 10px 0;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    animation: fadeIn 0.3s ease-in;
+}
+
+/* Иконка информации */
+.info-message::before {
+    content: 'ℹ️';
+    margin-right: 10px;
+    font-size: 16px;
+}
+
+/* Стили для заголовков разделов */
+.section-title {
+    color: #333;
+    font-size: 32px;
+    font-weight: 600;
+    margin-bottom: 25px;
+    padding-bottom: 15px;
+    position: relative;
+    border-bottom: 2px solid #e0e0e0;
+}
+
+/* Подчеркивание активного раздела */
+.section-title::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 60px;
+    height: 2px;
+    background-color: #0d6efd;
+}
+
+/* Специфичные стили для меню */
+.menu-title {
+    color: #2c3e50;
+}
+
+/* Специфичные стили для корзины */
+.cart-title {
+    color: #2c3e50;
+    display: flex;
+    align-items: center;
+}
+
+/* Иконка корзины */
+.cart-title::before {
+    content: '🛒';
+    margin-right: 10px;
+    font-size: 24px;
 }

@@ -26,8 +26,12 @@
     {% endfor %}
     </tbody>
 </table>
-<p>Общая сумма банкета (рубли): {{ ns.sum_column }}</p>
+<div class="success-message">
+    Общая сумма банкета (рубли): {{ ns.sum_column }}
+</div>
 {% else %}
-<h1>Данных не найдено.</h1>
+<div class="error-message">
+    <h3>Данных не найдено.</h3>
+</div>
 {% endif %}
 {% endblock %}

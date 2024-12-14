@@ -12,6 +12,7 @@ class Properties:
     def __init__(self, user_id: int, role: str) -> None:
         self.id = user_id
         self.role = role
+        self.problem_orders = []
         # Словарь для обработки ролей
         self.role_configs = {
             'client': {
@@ -49,8 +50,18 @@ class Properties:
             sql = provider.get(sql_file, params)
             result, schema = select(current_app.config['db_config'], sql)
 
+        res = [i for i in result]
+        # удобный просмотр заказов для клиентов
+        if self.role == 'client':
+            res = sorted(res, key=lambda i: i[0], reverse=True)
+
+            # необходимое решение проблемы прерывания перехода от корзины к предоплате
+            _sql = provider.get('find_problem_orders.sql', {'ord_stat': 'Подтвержден'})
+            r, s = select(current_app.config['db_config'], _sql)
+            self.problem_orders = [i[0] for i in r]
+
         render_data = {
             'status': True if result else False,
-            'data': [i for i in result]
+            'data': res
         }
-        return render_template(template, render_data=render_data)
+        return render_template(template, render_data=render_data, problem_orders=self.problem_orders)

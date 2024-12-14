@@ -7,7 +7,9 @@
 {% endblock %}
 {% block product_report %}
     {% if context.error_message %}
-        {{ context.error_message }}
+        <div class="error-message">
+            {{ context.error_message }}
+        </div>
     {% else %}
     <div class="wrapper">
         <header>
@@ -36,7 +38,7 @@
                             <th>Количество заказов</th>
                             <th>Общая прибыль заказов</th>
                         </tr>
-                    {% else %}
+                    {% elif context.id_rep == 0 %}
                         <tr class="title">
                             <th>Строка общей отчетности</th>
                             <th>ID зала</th>

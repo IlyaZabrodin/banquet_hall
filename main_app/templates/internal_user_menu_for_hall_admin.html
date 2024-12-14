@@ -3,9 +3,16 @@
 {% block nav_items %}
     <li class="nav-item">
         <a class="nav-link" href="{{ url_for('bp_report.start_report') }}">Работа с отчетами</a>
-        <a class="nav-link" href="{{ url_for('bp_query.form_render', query_code=1) }}">Посмотреть загруженность залов</a>
-        <a class="nav-link" href="{{ url_for('bp_query.form_render', query_code=2) }}">Посмотреть заказы официанта</a>
-        <a class="nav-link" href="{{ url_for('bp_query.form_render', query_code=3) }}">Проверить зал</a>
+    </li>
+    <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Работа с запросами
+        </a>
+        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <li><a class="dropdown-item" href="{{ url_for('bp_query.form_render', query_code=1) }}">Посмотреть загруженность залов</a></li>
+            <li><a class="dropdown-item" href="{{ url_for('bp_query.form_render', query_code=2) }}">Посмотреть заказы официанта</a></li>
+            <li><a class="dropdown-item" href="{{ url_for('bp_query.form_render', query_code=3) }}">Проверить зал</a></li>
+        </ul>
     </li>
 {% endblock %}
 {% block internal_user_menu_for_hall_admin %}
@@ -41,7 +48,9 @@
         </tbody>
     </table>
     {% else %}
-        <p class="status-message">Необработанных заказов не найдено.</p>
+        <div class="success-message">
+            Необработанных заказов не найдено.
+        </div>
     {% endif %}
 </div>
 {% endblock %}

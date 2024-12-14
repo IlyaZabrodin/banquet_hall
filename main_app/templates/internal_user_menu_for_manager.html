@@ -1,15 +1,20 @@
 {% extends 'orders_base.html' %}
 
 {% block nav_items %}
-    <li class="nav-item">
-        <a class="nav-link" href="{{ url_for('bp_query.form_render') }}">Посмотреть меню ресторана</a>
+    <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Работа с запросами
+        </a>
+        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <li><a class="dropdown-item" href="{{ url_for('bp_query.form_render') }}">Посмотреть меню ресторана</a></li>
+        </ul>
     </li>
 {% endblock %}
 {% block internal_user_menu_for_manager %}
 <div class="orders-container">
     <h2 class="mb-4">Заказы зарезервированные на вас 🔥</h2>
     {% if render_data['status'] %}
-    <table class="orders-table">
+    <table class="orders-table manager">
         <thead>
             <tr>
                 <th>Номер заказа</th>
@@ -22,7 +27,6 @@
                 <th>Статус заказа</th>
                 <th>Телефон клиента</th>
                 <th>ID клиента</th>
-                <th></th>
                 <th></th>
             </tr>
         </thead>
@@ -52,13 +56,12 @@
                 </td>
                 <td>{{ phone }}</td>
                 <td>{{ user }}</td>
-                {% if status == 'Полностью оформлен' %}
                 <td>
-                    <a class="btn-custom btn-primary-custom" href="{{ url_for('bp_dish_list.basket_index', order_id=ord_id) }}">Обработать стоимость</a><br><br>
-                    <a class="btn-custom btn-warning-custom" href="{{ url_for('bp_query.form_render', order_id=ord_id) }}">Посмотреть заказ</a>
-                </td>
+                {% if status == 'Полностью оформлен' %}
+                    <a class="btn-custom btn-primary-custom" href="{{ url_for('bp_dish_list.basket_index', order_id=ord_id) }}">Править чек заказа</a><br><br>
+                    <a class="btn-custom btn-warning-custom" href="{{ url_for('bp_query.form_render', order_id=ord_id) }}">Посмотреть заказ</a><br><br>
                 {% endif %}
-                <td><form action="{{ url_for('cancel_order_handler', order_id=id) }}" method="post">
+                <form action="{{ url_for('cancel_order_handler', order_id=ord_id) }}" method="post">
                     <button class="btn-custom btn-danger-custom" type="submit">Отменить заказ</button>
                 </form></td>
             </tr>
@@ -66,7 +69,9 @@
         </tbody>
     </table>
     {% else %}
-        <p class="status-message">На данный момент на вас не найдено заказов.</p>
+        <div class="success-message">
+            На данный момент на вас не найдено заказов.
+        </div>
     {% endif %}
 </div>
 {% endblock %}

@@ -7,7 +7,9 @@
     <h1 align="center">Авторизация</h1><br>
 
     {% if message %}
-        <p align="center" style="color: red;">{{ message }}</p><br>
+        <div class="error-message">
+            {{ message }}
+        </div><br>
     {% endif %}
 
     <h3 align="center"> Введите логин и пароль</h3> <br>

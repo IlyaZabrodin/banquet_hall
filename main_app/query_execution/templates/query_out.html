@@ -48,21 +48,37 @@
 </table>
 {% else %}
 {% if empty_code == 1%}
-    <div class="error-message" style="color: red;">
+    <div class="error-message">
         <h3>Вы не указали данные</h3>
     </div>
 {% else %}
 {% if query_code == 1 %}
-    <h1>Данный зал не предстоящий месяц свободен</h1>
+    <div class="info-message">
+        <h3>Данный зал не предстоящий месяц свободен</h3>
+    </div>
 {% elif query_code == 2 %}
-    <h1>У данного менеджера нет предстоящих заказов</h1>
+    <div class="info-message">
+        <h3>У данного менеджера нет предстоящих заказов</h3>
+    </div>
 {% elif query_code == 3 %}
-    <h1>На эту дату данный зал свободен</h1>
+    <div class="info-message">
+        <h3>На эту дату данный зал свободен</h3>
+    </div>
+{% endif %}
+{% if status_code == 2 %}
+    <div class="error-message">
+        <h3>Меню пусто</h3>
+    </div>
 {% endif %}
 {% endif %}
 {% endif %}
 
 {% if status_code == 1 %}
+{% if empty_code == 1%}
+<table class="orders-table">
+    <br><a class="btn btn-success" href="{{ url_for('bp_query.form_render', query_code=query_code) }}">Повторить запрос</a><br><br>
+</table>
+{% else %}
 {% if query_code in [1, 3] %}
 <table class="orders-table">
     <br><a class="btn btn-success" href="{{ url_for('bp_query.form_render', query_code=query_code) }}">Посмотреть другой зал</a><br><br>
@@ -71,6 +87,7 @@
 <table class="orders-table">
     <br><a class="btn btn-success" href="{{ url_for('bp_query.form_render', query_code=query_code) }}">Посмотреть другого сотрудника</a><br><br>
 </table>
+{% endif %}
 {% endif %}
 {% endif %}
 {% endblock %}

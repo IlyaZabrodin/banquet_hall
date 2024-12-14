@@ -1,7 +1,9 @@
 {% extends 'distribution_base.html' %}
 
 {% block distribution_form %}
-  <h3>Связаться с клиентом: {{ phone }}</h3>
+  <div class="info-message">
+      <h3>Связаться с клиентом: {{ phone }}</h3>
+  </div>
   {% if render_data.status %}
     <table class="orders-table">
       <thead>
@@ -26,6 +28,8 @@
       </tbody>
     </table>
   {% else %}
-    <p>На данный момент все работающие менеджеры заняты.</p>
+    <div class="error-message">
+        <p>На данный момент все работающие менеджеры заняты.</p>
+    </div>
   {% endif %}
 {% endblock %}
