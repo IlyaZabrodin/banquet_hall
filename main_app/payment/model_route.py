@@ -25,7 +25,7 @@ def model_route(sql_provider, context: dict):
             order_status = "Полностью оформлен"
         elif context["order_status"] == "Ждет оплаты":
             order_status = "Завершен"
-        _sql = sql_provider.get('update_price.sql', dict(order_id=context["order_id"], order_status=order_status))
+        _sql = sql_provider.get('update_status.sql', dict(order_id=context["order_id"], order_status=order_status))
         res = update(context["db_config"], _sql)
         if not res:
             raise OperationalError("Status order not updated")
