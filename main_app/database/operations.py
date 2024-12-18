@@ -1,7 +1,6 @@
-import os
+from flask import current_app
 from pymysql.err import OperationalError
 from database.connection import DBContextManager
-from database.sql_provider import SQLProvider
 
 
 def select(db_config, sql):
@@ -55,8 +54,7 @@ def call_procedure(db_config: dict, proc_name: str, *args):
     Return:
         Флаг-значение вызова процедуры, в зависимости от успешности ее выполнения.
     """
-
-    provider = SQLProvider(os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'sql'))
+    procedures = current_app.config["procedures"]["procedure_name"]
 
     res = []
     with DBContextManager(db_config) as cursor:
@@ -66,19 +64,8 @@ def call_procedure(db_config: dict, proc_name: str, *args):
         for arg in args:
             param_list.append(arg)
 
-        if param_list[0] == 1:
-            call_statement = provider.get(
-                'call_worker_procedure.sql',
-                {'month': param_list[1],
-                 'year': param_list[2]}
-            )
-        elif param_list[0] == 0:
-            call_statement = provider.get(
-                'call_sale_procedure.sql',
-                {'month': param_list[1],
-                 'year': param_list[2]}
-            )
-        cursor.execute(call_statement)
+        cursor.callproc(procedures[param_list[0]], (param_list[1], param_list[2]))
+
         res = cursor.fetchone()[0]
     return res
 
