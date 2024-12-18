@@ -55,6 +55,7 @@ def call_procedure(db_config: dict, *args):
         Флаг-значение вызова процедуры, в зависимости от успешности ее выполнения.
     """
     procedures = current_app.config["procedures"]["procedure_name"]
+    print(procedures)
 
     res = []
     with DBContextManager(db_config) as cursor:
@@ -64,7 +65,7 @@ def call_procedure(db_config: dict, *args):
         for arg in args:
             param_list.append(arg)
 
-        cursor.callproc(procedures[param_list[0]], (param_list[1], param_list[2]))
+        cursor.callproc(procedures[param_list[0]], [param_list[1], param_list[2]])
 
         res = cursor.fetchone()[0]
     return res
