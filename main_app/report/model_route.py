@@ -13,8 +13,8 @@ class InfoResponse:
 
 def model_route(db_config: dict, sql_provider, request) -> InfoResponse:
     report_list = [
-        {'rep_id': '1', 'proc_name': 'schema_1.SaleReport', 'sql': 'sales_report.sql'},
-        {'rep_id': '2', 'proc_name': 'schema_1.OrderReport', 'sql': 'workers_report.sql'}
+        {'rep_id': '1', 'sql': 'sales_report.sql'},
+        {'rep_id': '2', 'sql': 'workers_report.sql'}
     ]
     if not request.form.get('report_choice') or not request.form.get('month_choice'):
         return InfoResponse(result=[], id_rep=2, error_message="Все поля должны быть заполнены")
@@ -30,7 +30,7 @@ def model_route(db_config: dict, sql_provider, request) -> InfoResponse:
 
     id_rep = 1 if context["rep_id"] == '2' else 0
     if context['action'] == 'create':
-        return_code = call_procedure(db_config, context['proc_name'], id_rep,
+        return_code = call_procedure(db_config, id_rep,
                                      int(context['month']), int(context['year']))
 
         if return_code == 1:

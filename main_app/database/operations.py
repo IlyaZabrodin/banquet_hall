@@ -43,7 +43,7 @@ def select_dict(db_config, sql):
     return [dict(zip(schema, row)) for row in rows]
 
 
-def call_procedure(db_config: dict, proc_name: str, *args):
+def call_procedure(db_config: dict, *args):
     """
     Выполняет вызов процедур.
 
