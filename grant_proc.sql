@@ -1,0 +1,1 @@
+GRANT EXECUTE ON schema_1.* TO 'banquet_hall_user'@'%';
